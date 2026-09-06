@@ -43,6 +43,50 @@
   html[data-theme="light"] .city-label{fill:#12324A;stroke:#EEF2F8}
   html[data-theme="light"] .stat.blocked b,html[data-theme="light"] .st.blocked{color:#0E7490}
   .tgl{padding:5px 10px;font-size:12px;min-width:38px}
+  .tgl.active{background:rgba(34,211,238,.12);border-color:var(--cyan);color:var(--cyan)}
+  body.acad-on main,body.acad-on .incidents{display:none}
+  .acad{display:none;background:var(--panel);border:1px solid var(--line);min-height:0;overflow:auto;flex-direction:column}
+  body.acad-on .acad{display:flex}
+  body.acad-on .app{grid-template-rows:56px 1fr}
+  .acad-head{padding:14px 18px;border-bottom:1px solid var(--line)}
+  .acad-head h2{font-size:16px;font-weight:600;margin-bottom:12px}
+  .acad-tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .acadtab{flex:1;min-width:140px;background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:9px 6px;font-size:13px;font-family:var(--ar);cursor:pointer;border-radius:6px}
+  .acadtab.active{background:rgba(34,211,238,.12);border-color:var(--cyan);color:var(--cyan)}
+  .acad-body{padding:16px 18px;flex:1}
+  .acad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .acard{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .acard .ah{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+  .acard .ah svg{width:20px;height:20px;flex:none}
+  .acard .an{color:var(--text);font-size:14.5px}
+  .acard .atag{margin-inline-start:auto;color:var(--dim);font-family:var(--mono);font-size:11px}
+  .acard .ad{color:var(--text);opacity:.85;font-size:12.5px;line-height:1.65;margin-bottom:6px}
+  .acard .ai{color:var(--dim);font-size:11.5px}
+  .acard .atool{color:var(--green);font-family:var(--mono);font-size:11px}
+  .blockrow{display:grid;grid-template-columns:170px 1fr;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+  .blockrow:last-child{border:0}
+  .blockrow .bk{color:var(--red);font-size:13px}
+  .blockrow .bv{color:var(--text);opacity:.85;font-size:12.5px}
+  .irstep{display:grid;grid-template-columns:42px 1fr;gap:14px;padding:12px 0;border-inline-start:2px solid var(--line);padding-inline-start:16px;margin-inline-start:8px}
+  .irstep .ic{width:36px;height:36px;border-radius:50%;background:rgba(34,211,238,.08);display:flex;align-items:center;justify-content:center}
+  .irstep .ic svg{width:19px;height:19px}
+  .irstep .it{color:var(--text);font-size:14.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .irstep .badge{font-size:11px;border:1px solid;padding:1px 8px;border-radius:6px}
+  .irstep .idd{color:var(--text);opacity:.85;font-size:12.5px;line-height:1.7;margin-top:5px}
+  .acad-cta{background:var(--panel2);border:1px solid var(--cyan);border-radius:10px;padding:14px;margin-bottom:14px}
+  .acad-cta .ctaq{color:var(--cyan);font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .acad-cta .opts{display:flex;gap:8px;flex-wrap:wrap}
+  .acad-cta .opts button{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:7px 12px;font-size:12.5px;border-radius:6px;cursor:pointer;font-family:var(--ar)}
+  .acad-cta .opts button:hover{border-color:var(--cyan)}
+  .acad-out{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:none}
+  .acad-out.on{display:block}
+  .acad-out ol{margin:0;padding-inline-start:20px;color:var(--text);opacity:.9;font-size:13px;line-height:1.9}
+  .cert{background:rgba(244,63,94,.06);border:1px solid var(--red);border-radius:10px;padding:14px;margin-top:14px}
+  .cert .ct{color:var(--red);font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .cert .cr{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px dashed var(--line)}
+  .cert .cr:last-child{border:0}
+  .cert .ck{color:var(--dim)} .cert .cv{color:var(--text);font-family:var(--mono);direction:ltr}
+  .acad-disc{font-size:11px;color:var(--dim);padding:10px 18px;border-top:1px solid var(--line)}
   html[lang="en"] th{text-align:left}
   html[lang="en"] .entry .st{margin-right:0;margin-left:4px}
   html[lang="en"] .real{margin-right:0;margin-left:4px}
@@ -209,6 +253,8 @@
       <div id="mode" class="mode sim" data-i="md_wait">محاكاة — بانتظار البيانات الحية</div>
       <div><b class="num" style="color:var(--cyan)">iraq-shield.com</b></div>
       <div style="display:flex;gap:6px">
+        <button id="navSoc" class="tgl active" data-i="nav_soc">اللوحة</button>
+        <button id="navAcad" class="tgl" data-i="nav_acad">الأكاديمية</button>
         <button id="btnLang" class="tgl" title="Language / اللغة">EN</button>
         <button id="btnTheme" class="tgl" title="Theme / الثيم">☀</button>
       </div>
@@ -282,6 +328,20 @@
       <div class="pane" id="pane-kasp"><div class="kw"><iframe id="kasp" loading="lazy" title="Kaspersky Cyberthreat live map" data-src="https://cybermap.kaspersky.com/en/widget/dynamic/dark"></iframe><p data-i="kasp">خريطة Kaspersky الرسمية (ويدجت مُضمَّن) — بيانات حقيقية من شبكة Kaspersky Security Network.</p></div></div>
     </section>
   </main>
+
+  <section class="acad" id="acad">
+    <div class="acad-head">
+      <h2 data-i="acad_title">الأكاديمية الدفاعية</h2>
+      <div class="acad-tabs">
+        <button class="acadtab active" data-p="attack" data-i="t_attack">تقنيات الهجوم</button>
+        <button class="acadtab" data-p="defense" data-i="t_defense">أدوات الدفاع</button>
+        <button class="acadtab" data-p="block" data-i="t_block">خريطة الصدّ</button>
+        <button class="acadtab" data-p="ir" data-i="t_ir">الاستجابة للاختراق</button>
+      </div>
+    </div>
+    <div class="acad-body" id="acadBody"></div>
+    <p class="acad-disc" data-i="acad_disc">محتوى تعليمي دفاعي فقط — لا يتضمّن أدوات هجوم قابلة للتشغيل. لأغراض التوعية والاستجابة.</p>
+  </section>
 
   <section class="panel incidents">
     <table>
@@ -392,7 +452,14 @@ const I18N={
   rt_n:'شبكة محمية بواسطة Check Point في العراق',rt_s:'غير محدد',
   weights:'(أوزان حقيقية من ThreatCloud)',ago:'قبل',min:'د',
   md_live:'بيانات حقيقية · Check Point ThreatCloud ·',md_noev:'محاكاة — لا توجد أحداث في آخر تحديث',md_fail:'محاكاة — تعذّر جلب data/live.json',md_wait:'محاكاة — بانتظار البيانات الحية',
-  g_today:'هجمات اليوم عالميًا (Check Point)',g_win:'أحداث خلال نافذة',g_sec:'ث',g_co:'أكثر الدول استهدافًا: ',g_ind:'أكثر القطاعات: ',g_mal:'أنواع البرمجيات: ',g_none:'لا توجد بيانات'},
+  g_today:'هجمات اليوم عالميًا (Check Point)',g_win:'أحداث خلال نافذة',g_sec:'ث',g_co:'أكثر الدول استهدافًا: ',g_ind:'أكثر القطاعات: ',g_mal:'أنواع البرمجيات: ',g_none:'لا توجد بيانات',
+  nav_soc:'اللوحة',nav_acad:'الأكاديمية',acad_title:'الأكاديمية الدفاعية',
+  t_attack:'تقنيات الهجوم',t_defense:'أدوات الدفاع',t_block:'خريطة الصدّ',t_ir:'الاستجابة للاختراق',
+  acad_disc:'محتوى تعليمي دفاعي فقط — لا يتضمّن أدوات هجوم قابلة للتشغيل. لأغراض التوعية والاستجابة.',
+  cta_q:'تعرّضت لاختراق الآن؟ اختر نوعه لتظهر أول الخطوات:',
+  cert_t:'جهة التبليغ الرسمية في العراق',cert_name:'فريق الاستجابة لحوادث الأمن السيبراني العراقي',
+  cert_web:'الموقع',cert_hot:'الرقم المختصر',cert_avail:'التوفّر',cert_avail_v:'على مدار الساعة (24/7)',
+  cert_note:'تحقّق من الرقم الرسمي قبل الطوارئ الحقيقية — قد يتغيّر.'},
  en:{soc:'Cyber Operations Center',live:'Live',threat:'Threat level:',systime:'System time:',session:'Session:',
   summary:'Session summary',s_total:'Total attacks',s_blocked:'Blocked',s_breached:'Breaches',s_inv:'Investigating',
   atypes:'Attack types',topsrc:'Most active sources',gstats:'Live global stats',nodata:'No data yet — the collector runs every 5 minutes',
@@ -419,7 +486,14 @@ const I18N={
   rt_n:'Check Point protected network in Iraq',rt_s:'Undisclosed',
   weights:'(real weights from ThreatCloud)',ago:'',min:'min ago',
   md_live:'Live data · Check Point ThreatCloud ·',md_noev:'Simulation — no events in the last refresh',md_fail:'Simulation — could not load data/live.json',md_wait:'Simulation — waiting for live data',
-  g_today:'Attacks worldwide today (Check Point)',g_win:'Events in a',g_sec:'s window',g_co:'Most targeted countries: ',g_ind:'Top sectors: ',g_mal:'Malware types: ',g_none:'No data'}
+  g_today:'Attacks worldwide today (Check Point)',g_win:'Events in a',g_sec:'s window',g_co:'Most targeted countries: ',g_ind:'Top sectors: ',g_mal:'Malware types: ',g_none:'No data',
+  nav_soc:'Dashboard',nav_acad:'Academy',acad_title:'Defensive academy',
+  t_attack:'Attack techniques',t_defense:'Defense tools',t_block:'Block mapping',t_ir:'Incident response',
+  acad_disc:'Defensive educational content only — no operational attack tooling. For awareness and response.',
+  cta_q:'Breached right now? Pick the type to see the first steps:',
+  cert_t:'Official reporting body in Iraq',cert_name:'Iraq Cybersecurity Incident Response Team (Iraq CERT)',
+  cert_web:'Website',cert_hot:'Short number',cert_avail:'Availability',cert_avail_v:'24/7',
+  cert_note:'Verify the official number before a real emergency — it may change.'}
 };
 const t=k=>(I18N[L][k]!==undefined?I18N[L][k]:k);
 const NM=o=>(L==='en'&&o&&o.en)?o.en:(o?o.n:'');
@@ -667,6 +741,110 @@ setInterval(()=>{
   $('clock').textContent=fmt(new Date());
   const s=Math.floor((Date.now()-start)/1000);$('uptime').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 },1000);
+const ACAD={
+ attack:{ar:[
+  ['ti-mail','تصيّد احتيالي','#F43F5E','رسائل تنتحل جهة موثوقة لسرقة بيانات الدخول','MITRE T1566','مؤشرات: نطاقات مشابهة، روابط مختصرة، طلب عاجل'],
+  ['ti-wave-sine','حجب الخدمة DDoS','#F43F5E','إغراق الخدمة بحركة هائلة حتى تتوقف','MITRE T1498','مؤشرات: ارتفاع مفاجئ في الطلبات من آلاف المصادر'],
+  ['ti-database','حقن SQL','#F43F5E','إدخال أوامر عبر حقول الإدخال للوصول لقاعدة البيانات','MITRE T1190','مؤشرات: أخطاء SQL ومحارف غريبة في السجلات'],
+  ['ti-lock','برمجية فدية','#F43F5E','تشفير الملفات وطلب فدية لفكّها','MITRE T1486','مؤشرات: تعديل جماعي للملفات وملاحظة فدية'],
+  ['ti-key','تخمين كلمات المرور','#F43F5E','محاولات دخول متكررة حتى يُصاب الصحيح','MITRE T1110','مؤشرات: فشل دخول كثيف من عنوان واحد'],
+  ['ti-bug','استغلال ثغرة','#F43F5E','استغلال خلل معروف في نظام غير مُرقّع','MITRE T1203','مؤشرات: طلبات نحو مسارات معروفة الضعف']
+ ],en:[
+  ['ti-mail','Phishing','#F43F5E','Messages impersonating a trusted party to steal credentials','MITRE T1566','Indicators: lookalike domains, shortened links, urgency'],
+  ['ti-wave-sine','DDoS','#F43F5E','Flooding a service with traffic until it fails','MITRE T1498','Indicators: sudden request spike from thousands of sources'],
+  ['ti-database','SQL injection','#F43F5E','Injecting commands via input fields to reach the database','MITRE T1190','Indicators: SQL errors and odd characters in logs'],
+  ['ti-lock','Ransomware','#F43F5E','Encrypting files and demanding a ransom','MITRE T1486','Indicators: mass file changes and a ransom note'],
+  ['ti-key','Brute force','#F43F5E','Repeated login attempts until one succeeds','MITRE T1110','Indicators: heavy login failures from one address'],
+  ['ti-bug','Exploit','#F43F5E','Abusing a known flaw in an unpatched system','MITRE T1203','Indicators: requests toward known-weak paths']
+ ]},
+ defense:{ar:[
+  ['ti-flame','جدار ناري / WAF','#22D3EE','يرشّح الحركة ويحجب الطلبات الضارة عند الحافة','Cloudflare · ModSecurity'],
+  ['ti-eye','IDS / IPS','#22D3EE','يرصد ويمنع أنماط التسلل في الشبكة','Suricata · Snort'],
+  ['ti-device-desktop','EDR','#22D3EE','يراقب الأجهزة الطرفية ويحجر التهديدات','CrowdStrike · Defender'],
+  ['ti-chart-dots','SIEM','#22D3EE','يجمع السجلات ويربط الأحداث للتحقيق','Wazuh · Splunk'],
+  ['ti-network','تجزئة الشبكة','#22D3EE','يعزل الأنظمة الحساسة عن بعضها','VLAN · Zero Trust'],
+  ['ti-database-export','نسخ احتياطي دون اتصال','#22D3EE','يضمن استعادة البيانات بعد الفدية','قاعدة 3-2-1']
+ ],en:[
+  ['ti-flame','Firewall / WAF','#22D3EE','Filters traffic and blocks malicious requests at the edge','Cloudflare · ModSecurity'],
+  ['ti-eye','IDS / IPS','#22D3EE','Detects and blocks intrusion patterns on the network','Suricata · Snort'],
+  ['ti-device-desktop','EDR','#22D3EE','Watches endpoints and quarantines threats','CrowdStrike · Defender'],
+  ['ti-chart-dots','SIEM','#22D3EE','Aggregates logs and correlates events for investigation','Wazuh · Splunk'],
+  ['ti-network','Segmentation','#22D3EE','Isolates sensitive systems from each other','VLAN · Zero Trust'],
+  ['ti-database-export','Offline backup','#22D3EE','Ensures data recovery after ransomware','3-2-1 rule']
+ ]},
+ block:{ar:[
+  ['تصيّد احتيالي','فلترة البريد + تدريب المستخدمين + التحقق الثنائي'],
+  ['حجب الخدمة DDoS','شبكة غربلة + تحديد المعدل + BGP Flowspec'],
+  ['حقن SQL','WAF + تعقيم المدخلات + استعلامات مُعامَلة'],
+  ['برمجية فدية','EDR + نسخ احتياطي دون اتصال + تجزئة الشبكة'],
+  ['تخمين كلمات المرور','قفل الحساب + التحقق الثنائي + حظر IP'],
+  ['استغلال ثغرة','ترقيع سريع + إدارة الثغرات + IPS']
+ ],en:[
+  ['Phishing','Mail filtering + user training + two-factor auth'],
+  ['DDoS','Scrubbing centre + rate limiting + BGP Flowspec'],
+  ['SQL injection','WAF + input sanitisation + parameterised queries'],
+  ['Ransomware','EDR + offline backup + network segmentation'],
+  ['Brute force','Account lockout + two-factor auth + IP ban'],
+  ['Exploit','Fast patching + vulnerability management + IPS']
+ ]},
+ ir:{ar:[
+  ['ti-shield-check','التحضير','قبل الحادث','جهّز قبل الحادث: قائمة أصول، صلاحيات، نسخ احتياطية مُختبرة، وخطة تواصل.'],
+  ['ti-alert-triangle','الرصد والتحليل','قبل الحادث','أكّد أن الحادث حقيقي، حدّد نوعه ونطاقه من سجلات SIEM/EDR، وسجّل التوقيت.'],
+  ['ti-plug-connected-x','الاحتواء','الآن — عاجل','اعزل الأجهزة المصابة عن الشبكة فورًا، أوقف الحسابات المخترقة، ولا تُطفئ الجهاز (لحفظ الأدلة).'],
+  ['ti-eraser','الاستئصال','بعد الاحتواء','أزل البرمجية والوصول غير المصرّح، أغلق الثغرة المستغَلة، وغيّر كل بيانات الاعتماد.'],
+  ['ti-refresh','التعافي','التعافي','استعد من نسخة نظيفة، راقب بحذر قبل الإرجاع الكامل، وتأكد من عدم عودة المهاجم.'],
+  ['ti-notebook','الدروس المستفادة','بعد الحل','وثّق ما جرى، بلّغ الجهات المعنية، وحدّث الضوابط لمنع التكرار.']
+ ],en:[
+  ['ti-shield-check','Preparation','before','Ready before the incident: asset list, access, tested backups, and a communication plan.'],
+  ['ti-alert-triangle','Detection and analysis','before','Confirm the incident is real, scope it from SIEM/EDR logs, and record the timeline.'],
+  ['ti-plug-connected-x','Containment','now — urgent','Isolate infected hosts immediately, disable compromised accounts, and do not power off (preserves evidence).'],
+  ['ti-eraser','Eradication','after containment','Remove the malware and unauthorised access, close the exploited flaw, and rotate all credentials.'],
+  ['ti-refresh','Recovery','recovery','Restore from a clean backup, monitor carefully before full return, and confirm the attacker is gone.'],
+  ['ti-notebook','Lessons learned','after resolution','Document what happened, notify relevant bodies, and update controls to prevent recurrence.']
+ ]}
+};
+const NOW={ar:{
+ phish:['اعزل الحساب المتأثر وألغِ جلساته فورًا','غيّر كلمة المرور وفعّل التحقق الثنائي','بلّغ فريق الاستجابة العراقي (166) وحذّر بقية المستخدمين'],
+ ransom:['افصل الجهاز المصاب عن الشبكة فورًا دون إطفائه','لا تدفع الفدية — استعد من نسخة احتياطية دون اتصال','بلّغ فريق الاستجابة العراقي (166) واحتفظ بالأدلة'],
+ ddos:['فعّل شبكة الغربلة وتحديد المعدل لدى مزوّدك','وسّع السعة مؤقتًا واحجب الأنماط الضارة','وثّق التوقيت والمصادر وبلّغ مزوّد الخدمة'],
+ breach:['اعزل الأنظمة المخترقة وأوقف الحسابات المشبوهة','غيّر كل بيانات الاعتماد وأغلق الثغرة','بلّغ فريق الاستجابة العراقي (166) وابدأ التحقيق الجنائي']
+},en:{
+ phish:['Isolate the affected account and revoke its sessions now','Change the password and enable two-factor auth','Report to Iraq CERT (166) and warn other users'],
+ ransom:['Disconnect the infected host from the network without powering it off','Do not pay — restore from an offline backup','Report to Iraq CERT (166) and preserve evidence'],
+ ddos:['Enable scrubbing and rate limiting with your provider','Scale capacity temporarily and block malicious patterns','Record timing and sources, and notify your provider'],
+ breach:['Isolate compromised systems and disable suspicious accounts','Rotate all credentials and close the flaw','Report to Iraq CERT (166) and start forensic investigation']
+}};
+const NOWLBL={ar:{phish:'تصيّد',ransom:'فدية',ddos:'حجب خدمة',breach:'اختراق عام'},en:{phish:'Phishing',ransom:'Ransomware',ddos:'DDoS',breach:'General breach'}};
+const icon=n=>`<i class="ti ${n}" aria-hidden="true"></i>`;
+function acadRender(p){
+ const b=$('acadBody');
+ if(p==='attack'){
+  b.innerHTML='<div class="acad-grid">'+ACAD.attack[L].map(a=>`<div class="acard"><div class="ah" style="color:${a[2]}">${icon(a[0])}<span class="an">${a[1]}</span><span class="atag">${a[4]}</span></div><div class="ad">${a[3]}</div><div class="ai">${a[5]}</div></div>`).join('')+'</div>';
+ }else if(p==='defense'){
+  b.innerHTML='<div class="acad-grid">'+ACAD.defense[L].map(a=>`<div class="acard"><div class="ah" style="color:${a[2]}">${icon(a[0])}<span class="an">${a[1]}</span></div><div class="ad">${a[3]}</div><span class="atool">${a[4]}</span></div>`).join('')+'</div>';
+ }else if(p==='block'){
+  b.innerHTML='<div class="acard">'+ACAD.block[L].map(a=>`<div class="blockrow"><span class="bk">${icon('ti-arrow-badge-left')} ${a[0]}</span><span class="bv">${a[1]}</span></div>`).join('')+'</div>';
+ }else{
+  const now=`<div class="acad-cta"><div class="ctaq">${icon('ti-urgent')} ${t('cta_q')}</div><div class="opts">`+Object.keys(NOWLBL[L]).map(k=>`<button data-now="${k}">${NOWLBL[L][k]}</button>`).join('')+`</div><div class="acad-out" id="acadOut"><ol id="acadOl"></ol></div></div>`;
+  const steps=ACAD.ir[L].map((a,i)=>{const col=i===2?'var(--red)':i<2?'var(--dim)':'var(--cyan)';return `<div class="irstep" style="border-inline-start-color:${col}"><div class="ic" style="color:${col}">${icon(a[0])}</div><div><div class="it">${i+1}. ${a[1]} <span class="badge" style="color:${col};border-color:${col}">${a[2]}</span></div><div class="idd">${a[3]}</div></div></div>`}).join('');
+  const cert=`<div class="cert"><div class="ct">${icon('ti-phone-call')} ${t('cert_t')}</div><div class="cr"><span class="ck">${t('cert_name')}</span></div><div class="cr"><span class="ck">${t('cert_web')}</span><span class="cv">cert.gov.iq</span></div><div class="cr"><span class="ck">${t('cert_hot')}</span><span class="cv">166</span></div><div class="cr"><span class="ck">${t('cert_avail')}</span><span class="cv" style="font-family:var(--ar)">${t('cert_avail_v')}</span></div><div style="color:var(--dim);font-size:11px;margin-top:8px">${t('cert_note')}</div></div>`;
+  b.innerHTML=now+steps+cert;
+  b.querySelectorAll('[data-now]').forEach(btn=>btn.onclick=()=>{
+   const k=btn.dataset.now;$('acadOl').innerHTML=NOW[L][k].map(x=>`<li>${x}</li>`).join('');$('acadOut').classList.add('on');
+   b.querySelectorAll('[data-now]').forEach(x=>x.style.borderColor='var(--line)');btn.style.borderColor='var(--cyan)';
+  });
+ }
+}
+let acadCur='attack';
+function acadTab(p){acadCur=p;document.querySelectorAll('.acadtab').forEach(x=>x.classList.toggle('active',x.dataset.p===p));acadRender(p)}
+document.querySelectorAll('.acadtab').forEach(x=>x.onclick=()=>acadTab(x.dataset.p));
+function showView(v){
+ document.body.classList.toggle('acad-on',v==='acad');
+ $('navSoc').classList.toggle('active',v==='soc');$('navAcad').classList.toggle('active',v==='acad');
+ if(v==='acad')acadRender(acadCur);
+}
+$('navSoc').onclick=()=>showView('soc');
+$('navAcad').onclick=()=>showView('acad');
 function applyTheme(){
   document.documentElement.dataset.theme=TH;
   $('btnTheme').textContent=TH==='dark'?'☀':'☾';
@@ -688,13 +866,16 @@ function applyLang(){
     if(LIVE.cp)renderGlobal(LIVE.cp);
   }
   renderStats();rerender();
+  if(document.body.classList.contains('acad-on'))acadRender(acadCur);
   try{localStorage.setItem('iqs-lang',L)}catch(e){}
 }
-$('btnLang').onclick=()=>{L=(L==='ar')?'en':'ar';applyLang()};
-$('btnTheme').onclick=()=>{TH=(TH==='dark')?'light':'dark';applyTheme()};
+$('btnLang').onclick=()=>{L=(L==='ar')?'en':'ar';applyLang();window.dispatchEvent(new Event('iqs-lang-change'))};
+$('btnTheme').onclick=()=>{TH=(TH==='dark')?'light':'dark';applyTheme();window.dispatchEvent(new Event('iqs-lang-change'))};
 applyTheme();applyLang();
 renderStats();
 setTimeout(tick,600);
 </script>
+<script src="supabase-config.js"></script>
+<script src="auth.js"></script>
 </body>
 </html>
