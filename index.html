@@ -31,6 +31,29 @@
   body::after{content:"";pointer-events:none;position:fixed;inset:0;z-index:50;
     background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px);mix-blend-mode:multiply;opacity:.6}
   .num{font-family:var(--mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:embed}
+  html[data-theme="light"]{
+    --bg:#EEF2F8; --panel:#FFFFFF; --panel2:#F4F7FB; --line:#D5DEEA;
+    --text:#0D1626; --dim:#5B6B84; --faint:#C6D1E0;
+    --cyan:#0E7490; --red:#BE123C; --amber:#A16207; --green:#047857;
+  }
+  html[data-theme="light"] body{background-image:linear-gradient(rgba(14,116,144,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(14,116,144,.05) 1px,transparent 1px)}
+  html[data-theme="light"] body::after{opacity:0}
+  html[data-theme="light"] .prov{fill:rgba(14,116,144,.08);stroke:rgba(14,116,144,.5)}
+  html[data-theme="light"] .grid-ring{stroke:rgba(14,116,144,.12)}
+  html[data-theme="light"] .city-label{fill:#12324A;stroke:#EEF2F8}
+  html[data-theme="light"] .stat.blocked b,html[data-theme="light"] .st.blocked{color:#0E7490}
+  .tgl{padding:5px 10px;font-size:12px;min-width:38px}
+  html[lang="en"] th{text-align:left}
+  html[lang="en"] .entry .st{margin-right:0;margin-left:4px}
+  html[lang="en"] .real{margin-right:0;margin-left:4px}
+  html[lang="en"] .type .n{text-align:right}
+  html[lang="en"] .map .corner.br{text-align:left;right:auto;left:14px}
+  html[lang="en"] .map .legend{direction:ltr;left:auto;right:14px}
+  html[lang="en"] .legend i{margin-left:0;margin-right:5px}
+  html[lang="en"] .step{border-right:0;border-left:2px solid var(--line);padding-right:0;padding-left:12px;margin-right:0;margin-left:6px}
+  html[lang="en"] .step.bad{border-left-color:var(--red)} html[lang="en"] .step.ok{border-left-color:var(--cyan)}
+  html[lang="en"] .step .t{text-align:left}
+  html[lang="en"] .card dd.num,html[lang="en"] td.num{text-align:left}
 
   /* ---------- Layout ---------- */
   .app{display:grid;grid-template-rows:56px 1fr 230px;height:100vh;gap:10px;padding:10px}
@@ -39,7 +62,9 @@
   header h1 .live{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--red);font-weight:500}
   header h1 .live i{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:blink 1.2s infinite}
   @keyframes blink{50%{opacity:.25}}
-  .hdr-meta{display:flex;align-items:center;gap:26px;color:var(--dim);font-size:12px}
+  .hdr-meta{display:flex;align-items:center;gap:18px;color:var(--dim);font-size:12px;flex-wrap:nowrap}
+  .hdr-meta>div{white-space:nowrap}
+  header h1{white-space:nowrap}
   .hdr-meta b{color:var(--text);font-weight:500}
   .mode{padding:3px 10px;border:1px solid var(--line);font-size:11px}
   .mode.live{color:var(--green);border-color:var(--green);background:rgba(52,211,153,.08)}
@@ -174,45 +199,49 @@
 <body>
 <div class="app">
   <header>
-    <h1><svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8 L52 16 V34 C52 46 42 54 32 58 C22 54 12 46 12 34 V16 Z" fill="none" stroke="#22D3EE" stroke-width="4"/><path d="M22 32 L30 40 L44 24" fill="none" stroke="#22D3EE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="num" style="letter-spacing:2px;font-weight:600">IRAQ SHIELD</span> <span style="color:var(--dim);font-weight:400;font-size:13px">مركز العمليات السيبرانية</span>
-      <span class="live"><i></i> بث مباشر</span>
+    <h1><svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8 L52 16 V34 C52 46 42 54 32 58 C22 54 12 46 12 34 V16 Z" fill="none" stroke="#22D3EE" stroke-width="4"/><path d="M22 32 L30 40 L44 24" fill="none" stroke="#22D3EE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="num" style="letter-spacing:2px;font-weight:600">IRAQ SHIELD</span> <span style="color:var(--dim);font-weight:400;font-size:13px" data-i="soc">مركز العمليات السيبرانية</span>
+      <span class="live"><i></i> <span data-i="live">بث مباشر</span></span>
     </h1>
     <div class="hdr-meta">
-      <div class="threat" id="threat" data-level="2">مستوى التهديد: <b id="threatLabel">مرتفع</b><div class="bar"><i></i><i></i><i></i><i></i><i></i></div></div>
-      <div>وقت النظام: <b class="num" id="clock">--:--:--</b></div>
-      <div>الجلسة: <b class="num">IQS-SOC-7</b></div>
-      <div id="mode" class="mode sim">محاكاة — بانتظار البيانات الحية</div>
+      <div class="threat" id="threat" data-level="2"><span data-i="threat">مستوى التهديد:</span> <b id="threatLabel">مرتفع</b><div class="bar"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div><span data-i="systime">وقت النظام:</span> <b class="num" id="clock">--:--:--</b></div>
+      <div><span data-i="session">الجلسة:</span> <b class="num">IQS-SOC-7</b></div>
+      <div id="mode" class="mode sim" data-i="md_wait">محاكاة — بانتظار البيانات الحية</div>
       <div><b class="num" style="color:var(--cyan)">iraq-shield.com</b></div>
+      <div style="display:flex;gap:6px">
+        <button id="btnLang" class="tgl" title="Language / اللغة">EN</button>
+        <button id="btnTheme" class="tgl" title="Theme / الثيم">☀</button>
+      </div>
     </div>
   </header>
 
   <main>
     <!-- Right column (first in RTL): stats -->
     <section class="panel">
-      <h2>ملخص الجلسة <span id="uptime" class="num">00:00</span></h2>
+      <h2><span data-i="summary">ملخص الجلسة</span> <span id="uptime" class="num">00:00</span></h2>
       <div class="stats">
-        <div class="stat"><small>إجمالي الهجمات</small><b id="sTotal">0</b></div>
-        <div class="stat blocked"><small>تم صدّها</small><b id="sBlocked">0</b></div>
-        <div class="stat breached"><small>اختراقات ناجحة</small><b id="sBreached">0</b></div>
-        <div class="stat inv"><small>قيد التحقيق</small><b id="sInv">0</b></div>
+        <div class="stat"><small data-i="s_total">إجمالي الهجمات</small><b id="sTotal">0</b></div>
+        <div class="stat blocked"><small data-i="s_blocked">تم صدّها</small><b id="sBlocked">0</b></div>
+        <div class="stat breached"><small data-i="s_breached">اختراقات ناجحة</small><b id="sBreached">0</b></div>
+        <div class="stat inv"><small data-i="s_inv">قيد التحقيق</small><b id="sInv">0</b></div>
       </div>
-      <h2>أنواع الهجمات</h2>
+      <h2 data-i="atypes">أنواع الهجمات</h2>
       <div class="types" id="types"></div>
-      <h2>أكثر المصادر نشاطًا <span id="originsNote"></span></h2>
+      <h2><span data-i="topsrc">أكثر المصادر نشاطًا</span> <span id="originsNote"></span></h2>
       <div class="origins" id="origins"></div>
-      <h2>إحصاءات عالمية حقيقية <span id="gUpdated" class="num"></span></h2>
-      <div class="gstats" id="gstats"><div class="row"><span class="k">لا توجد بيانات بعد — يعمل المجمِّع كل 5 دقائق</span></div></div>
+      <h2><span data-i="gstats">إحصاءات عالمية حقيقية</span> <span id="gUpdated" class="num"></span></h2>
+      <div class="gstats" id="gstats"><div class="row"><span class="k" data-i="nodata">لا توجد بيانات بعد — يعمل المجمِّع كل 5 دقائق</span></div></div>
       <div class="controls">
         <div class="row">
-          <button id="btnPause">إيقاف مؤقت</button>
-          <button id="btnReset">تصفير العدادات</button>
+          <button id="btnPause" data-i="pause">إيقاف مؤقت</button>
+          <button id="btnReset" data-i="reset">تصفير العدادات</button>
         </div>
-        <div class="row"><span style="font-size:12px;color:var(--dim)">السرعة</span><input type="range" id="speed" min="1" max="10" value="5"></div>
+        <div class="row"><span style="font-size:12px;color:var(--dim)" data-i="speed">السرعة</span><input type="range" id="speed" min="1" max="10" value="5"></div>
         <div class="row filters">
-          <button class="active" data-f="all">الكل</button>
-          <button data-f="blocked">صُدّت</button>
-          <button data-f="breached">اختراق</button>
-          <button data-f="inv">تحقيق</button>
+          <button class="active" data-f="all" data-i="f_all">الكل</button>
+          <button data-f="blocked" data-i="f_blocked">صُدّت</button>
+          <button data-f="breached" data-i="f_breached">اختراق</button>
+          <button data-f="inv" data-i="f_inv">تحقيق</button>
         </div>
       </div>
     </section>
@@ -233,37 +262,37 @@
         <g id="fx"></g>
       </svg>
       <div class="corner tl">IRAQ SHIELD&nbsp;·&nbsp;33.2N 43.7E<br>SECTOR GRID 42px</div>
-      <div class="corner br" id="lastEvent">بانتظار أول حدث…</div>
+      <div class="corner br" id="lastEvent" data-i="waitfirst">بانتظار أول حدث…</div>
       <div class="legend">
-        <span><i style="background:var(--cyan)"></i>صُدّ الهجوم</span>
-        <span><i style="background:var(--red)"></i>اختراق ناجح</span>
-        <span><i style="background:var(--amber)"></i>قيد التحقيق</span>
+        <span><i style="background:var(--cyan)"></i><span data-i="lg_b">صُدّ الهجوم</span></span>
+        <span><i style="background:var(--red)"></i><span data-i="lg_r">اختراق ناجح</span></span>
+        <span><i style="background:var(--amber)"></i><span data-i="lg_a">قيد التحقيق</span></span>
       </div>
     </section>
 
     <!-- Left column: live log -->
     <section class="panel">
       <div class="tabs">
-        <button class="active" data-t="log">سجل العراق <span id="logCount" class="num">0</span></button>
-        <button data-t="gfeed">بث ThreatCloud <span id="gCount" class="num">0</span></button>
+        <button class="active" data-t="log"><span data-i="tab_log">سجل العراق</span> <span id="logCount" class="num">0</span></button>
+        <button data-t="gfeed"><span data-i="tab_g">بث ThreatCloud</span> <span id="gCount" class="num">0</span></button>
         <button data-t="kasp">Kaspersky</button>
       </div>
       <div class="pane active" id="pane-log"><div class="log" id="log"></div></div>
-      <div class="pane" id="pane-gfeed"><div class="log gfeed" id="gfeed"><div class="entry"><span class="t">—</span><div class="body" style="color:var(--dim)">بانتظار بث الأحداث العالمية من Check Point ThreatCloud…</div></div></div></div>
-      <div class="pane" id="pane-kasp"><div class="kw"><iframe id="kasp" loading="lazy" title="Kaspersky Cyberthreat live map" data-src="https://cybermap.kaspersky.com/en/widget/dynamic/dark"></iframe><p>خريطة Kaspersky الرسمية (ويدجت مُضمَّن) — بيانات حقيقية من شبكة Kaspersky Security Network.</p></div></div>
+      <div class="pane" id="pane-gfeed"><div class="log gfeed" id="gfeed"><div class="entry gph"><span class="t">—</span><div class="body" style="color:var(--dim)" data-i="gwait">بانتظار بث الأحداث العالمية من Check Point ThreatCloud…</div></div></div></div>
+      <div class="pane" id="pane-kasp"><div class="kw"><iframe id="kasp" loading="lazy" title="Kaspersky Cyberthreat live map" data-src="https://cybermap.kaspersky.com/en/widget/dynamic/dark"></iframe><p data-i="kasp">خريطة Kaspersky الرسمية (ويدجت مُضمَّن) — بيانات حقيقية من شبكة Kaspersky Security Network.</p></div></div>
     </section>
   </main>
 
   <section class="panel incidents">
     <table>
       <thead><tr>
-        <th>الوقت</th><th>الحالة</th><th>نوع الهجوم</th><th>المهاجم</th><th>المصدر</th><th>الهدف</th><th>المدينة</th><th>الإجراء المتخذ</th>
+        <th data-i="th_time">الوقت</th><th data-i="th_status">الحالة</th><th data-i="th_type">نوع الهجوم</th><th data-i="th_actor">المهاجم</th><th data-i="th_src">المصدر</th><th data-i="th_tgt">الهدف</th><th data-i="th_city">المدينة</th><th data-i="th_act">الإجراء المتخذ</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
     <div style="font-size:11px;color:var(--dim);padding:6px 12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;background:var(--panel);position:sticky;bottom:0">
       <span>Iraq Shield © 2026 — iraq-shield.com</span>
-      <span>الإحصاءات وبث ThreatCloud وخريطة Kaspersky حقيقية؛ أقواس الخريطة غير الموسومة بـ«حقيقي» محاكاة تدريبية</span>
+      <span data-i="foot">الإحصاءات وبث ThreatCloud وخريطة Kaspersky حقيقية؛ أقواس الخريطة غير الموسومة بـ«حقيقي» محاكاة تدريبية</span>
     </div>
   </section>
 </div>
@@ -277,10 +306,10 @@
 const OUTER="M401 41 L397 43 L393 52 L389 55 L384 64 L363 69 L363 75 L316 128 L276 134 L274 136 L271 144 L271 154 L266 160 L266 175 L264 178 L264 185 L274 204 L273 232 L265 245 L264 259 L259 269 L260 323 L246 344 L237 362 L230 367 L212 369 L200 374 L152 403 L123 417 L62 454 L38 466 L34 470 L45 517 L58 556 L58 564 L56 566 L48 567 L52 584 L55 586 L64 582 L73 582 L75 584 L75 595 L69 601 L72 604 L172 624 L180 627 L247 675 L284 696 L334 720 L586 929 L623 929 L746 939 L753 938 L767 925 L785 902 L789 889 L802 867 L806 846 L810 838 L817 831 L821 830 L832 821 L869 821 L885 831 L893 831 L898 826 L912 826 L929 836 L937 839 L944 839 L943 834 L934 829 L932 821 L929 818 L928 808 L918 796 L909 795 L907 787 L897 783 L891 777 L890 724 L857 723 L856 676 L863 660 L870 634 L866 632 L862 625 L854 618 L847 605 L840 602 L840 592 L835 588 L835 582 L830 579 L830 573 L817 565 L813 565 L811 567 L800 567 L775 549 L765 537 L738 520 L725 516 L708 516 L707 496 L711 493 L711 490 L707 481 L703 478 L699 468 L697 467 L695 459 L693 457 L686 456 L686 450 L683 443 L669 443 L661 437 L658 428 L644 410 L644 396 L651 391 L652 375 L649 368 L644 368 L640 362 L640 354 L645 351 L646 345 L666 343 L661 328 L661 315 L667 313 L670 306 L675 306 L679 298 L678 289 L681 287 L698 287 L703 283 L703 270 L699 268 L699 260 L692 254 L686 245 L687 220 L697 219 L712 213 L716 210 L716 205 L713 203 L699 205 L694 202 L683 205 L675 205 L671 208 L663 208 L659 201 L647 189 L629 189 L628 178 L624 174 L622 157 L619 155 L618 143 L613 141 L602 141 L597 132 L597 123 L600 120 L598 108 L584 103 L584 95 L587 92 L585 87 L585 78 L574 73 L573 62 L560 60 L548 72 L538 75 L538 78 L535 81 L527 81 L525 78 L525 66 L529 63 L528 52 L521 48 L507 47 L502 51 L498 58 L490 58 L486 56 L462 54 L460 51 L454 50 L450 46 L441 46 L430 40 L420 46 L411 46Z";
 const PROVINCES=["M259 288 L259 322 L245 343 L237 362 L229 366 L211 368 L199 373 L151 402 L101 428 L34 468 L34 477 L44 518 L57 561 L59 562 L58 564 L47 566 L47 572 L52 586 L59 586 L71 580 L73 582 L76 594 L69 598 L69 604 L140 620 L171 625 L179 628 L246 676 L283 697 L333 721 L378 759 L381 759 L382 762 L395 773 L400 773 L404 769 L405 756 L408 746 L423 718 L424 702 L435 684 L439 671 L457 644 L462 640 L486 629 L485 618 L474 607 L471 607 L470 604 L446 581 L439 577 L434 570 L441 563 L461 562 L467 558 L476 558 L479 556 L489 565 L493 565 L500 560 L503 546 L507 542 L509 542 L513 547 L520 547 L520 535 L516 522 L514 506 L510 503 L497 501 L493 498 L493 495 L497 492 L503 492 L508 495 L519 496 L525 501 L532 501 L535 498 L535 494 L529 489 L529 486 L535 477 L534 470 L527 470 L516 458 L510 447 L487 447 L475 439 L464 439 L462 442 L457 443 L450 440 L442 440 L439 437 L434 437 L431 433 L430 422 L425 414 L424 405 L416 394 L416 384 L412 378 L412 359 L407 359 L398 366 L394 366 L370 349 L369 310 L350 311 L345 307 L328 309 L317 302 L302 300 L294 295 L282 296 L272 287Z", "M612 661 L610 663 L612 676 L605 693 L605 700 L602 704 L596 705 L580 693 L573 694 L567 714 L561 749 L552 759 L539 766 L533 772 L521 802 L519 822 L499 852 L498 858 L585 930 L622 930 L745 940 L756 938 L764 930 L760 913 L762 883 L762 823 L758 802 L751 782 L751 776 L738 759 L731 755 L717 753 L678 752 L669 748 L666 743 L666 737 L673 724 L677 721 L677 717 L674 712 L676 697 L672 693 L678 685 L678 680 L676 678 L676 666 L634 659 L618 659Z", "M532 106 L521 98 L514 97 L501 84 L492 82 L479 85 L475 88 L477 101 L474 104 L464 101 L454 101 L449 95 L442 95 L436 108 L426 112 L417 113 L411 106 L403 104 L397 95 L384 95 L380 91 L379 86 L372 79 L366 76 L358 77 L339 101 L319 122 L318 127 L275 133 L271 139 L270 153 L265 159 L263 186 L273 205 L272 231 L264 244 L263 258 L258 268 L259 284 L261 286 L270 286 L281 295 L292 294 L301 299 L315 301 L326 308 L343 306 L348 310 L369 309 L369 297 L372 294 L416 294 L417 285 L403 267 L403 259 L406 252 L413 244 L413 241 L419 237 L426 237 L439 234 L441 232 L441 228 L446 222 L445 212 L446 207 L449 205 L449 192 L462 184 L473 165 L487 152 L492 139 L508 123 L520 124 L532 110Z", "M538 593 L529 594 L512 603 L484 612 L487 627 L483 631 L462 640 L454 647 L450 656 L439 671 L432 691 L425 700 L424 716 L410 742 L406 754 L405 767 L402 772 L402 778 L460 827 L466 829 L467 832 L481 844 L485 844 L486 848 L493 854 L498 854 L518 824 L518 815 L522 797 L533 772 L539 766 L556 756 L559 752 L563 739 L565 721 L573 695 L573 691 L551 686 L548 679 L549 673 L556 667 L556 654 L559 651 L559 647 L556 644 L557 634 L555 626 L565 617 L565 613 L559 610 L550 610 L541 615 L536 606 L538 601Z", "M419 237 L410 246 L404 258 L405 271 L417 285 L418 292 L414 295 L376 294 L370 296 L371 351 L392 365 L399 365 L409 357 L412 359 L413 380 L417 386 L417 396 L426 406 L425 412 L432 427 L432 435 L437 435 L440 439 L447 439 L455 442 L462 442 L465 438 L472 438 L485 446 L509 446 L513 450 L517 460 L527 470 L531 470 L539 462 L541 448 L547 447 L548 434 L546 431 L546 426 L550 421 L550 414 L544 408 L538 407 L534 401 L548 380 L550 370 L549 355 L555 347 L565 346 L568 344 L569 332 L573 328 L580 326 L581 322 L589 314 L589 301 L584 295 L578 293 L562 294 L556 287 L552 287 L542 312 L535 325 L529 332 L514 316 L500 310 L485 299 L470 294 L456 280 L454 276 L456 268 L452 267 L451 260 L444 256 L447 253 L456 251 L456 240 L452 234 L451 227 L446 227 L438 235Z", "M659 287 L654 287 L650 290 L647 304 L638 318 L635 329 L631 334 L624 337 L619 345 L615 342 L616 329 L613 324 L608 323 L603 316 L595 317 L593 315 L588 315 L582 320 L578 327 L571 329 L568 344 L563 347 L556 347 L552 349 L550 353 L551 367 L549 378 L535 399 L535 404 L545 409 L552 418 L547 423 L547 433 L549 436 L548 446 L542 447 L540 460 L549 468 L559 467 L563 471 L563 475 L555 488 L555 493 L562 499 L562 507 L567 507 L570 512 L574 512 L583 502 L589 499 L613 504 L624 509 L633 509 L638 511 L648 510 L649 507 L652 507 L670 482 L679 476 L686 467 L686 459 L681 457 L687 453 L684 442 L674 442 L673 446 L670 448 L670 442 L662 436 L659 427 L654 422 L648 411 L639 411 L637 409 L639 406 L645 404 L645 397 L652 392 L652 385 L650 384 L650 381 L652 380 L652 370 L650 367 L645 367 L643 365 L639 355 L646 352 L645 342 L647 340 L654 345 L667 344 L664 330 L658 324 L662 321 L663 315 L662 291Z", "M857 698 L830 695 L821 698 L819 702 L815 703 L810 711 L812 728 L805 751 L805 758 L809 763 L808 767 L785 767 L769 773 L757 773 L752 778 L752 784 L757 797 L763 826 L763 878 L761 915 L763 924 L769 924 L786 903 L790 890 L803 868 L807 847 L811 839 L818 832 L822 831 L833 822 L868 822 L884 832 L894 832 L899 827 L911 827 L933 839 L943 840 L944 833 L935 828 L933 820 L928 816 L930 814 L930 810 L923 799 L919 795 L910 796 L908 786 L898 782 L892 776 L891 723 L859 723Z", "M594 132 L590 140 L587 142 L574 141 L571 144 L562 143 L556 146 L552 151 L552 160 L559 162 L562 165 L559 172 L559 178 L574 187 L585 198 L584 203 L560 203 L558 205 L559 212 L570 223 L567 230 L567 235 L573 248 L568 257 L564 276 L557 283 L557 290 L561 293 L575 292 L584 295 L590 303 L591 314 L593 316 L601 315 L608 323 L611 323 L616 327 L616 344 L620 344 L627 335 L634 331 L638 317 L646 305 L648 294 L654 287 L658 286 L662 290 L663 309 L665 313 L669 313 L670 306 L677 304 L679 301 L679 294 L676 292 L677 289 L681 289 L682 286 L685 288 L693 288 L694 285 L696 287 L703 286 L704 280 L701 278 L704 275 L704 269 L697 267 L699 258 L685 243 L687 236 L684 232 L688 231 L688 225 L686 224 L687 220 L698 220 L713 214 L717 211 L717 204 L714 202 L709 202 L704 206 L700 206 L697 201 L683 203 L680 206 L678 204 L674 204 L670 207 L664 207 L652 191 L646 187 L637 187 L633 190 L629 190 L626 187 L629 184 L629 177 L623 171 L625 169 L624 162 L618 160 L620 159 L620 155 L617 153 L620 151 L619 142 L609 141 L608 143 L604 144 L601 134 L599 132Z", "M746 527 L739 538 L735 551 L733 582 L736 588 L735 596 L748 609 L748 620 L744 625 L738 622 L729 622 L726 628 L726 635 L734 645 L735 653 L745 666 L751 681 L768 695 L770 707 L775 711 L809 712 L820 699 L831 694 L857 697 L857 681 L855 680 L857 679 L871 639 L871 633 L867 631 L863 624 L855 617 L855 615 L852 614 L852 610 L848 604 L838 600 L838 598 L841 597 L841 591 L836 587 L836 581 L828 578 L828 570 L825 567 L818 564 L812 564 L807 568 L805 566 L801 566 L776 548 L771 542 L768 541 L766 536 L752 527Z", "M694 456 L688 456 L687 465 L684 471 L667 485 L655 504 L647 511 L641 512 L626 510 L595 500 L587 500 L583 502 L572 514 L569 509 L563 509 L556 521 L556 525 L558 525 L562 530 L562 538 L564 540 L576 541 L583 547 L589 548 L603 566 L639 590 L662 615 L673 633 L678 633 L713 622 L747 622 L747 606 L736 597 L734 593 L734 583 L732 580 L734 553 L739 538 L746 528 L746 523 L726 515 L705 515 L704 511 L708 509 L708 504 L704 504 L696 500 L699 497 L706 498 L712 494 L712 489 L708 480 L704 477Z", "M571 60 L559 59 L547 71 L537 74 L535 83 L532 86 L526 77 L526 73 L523 71 L523 68 L530 64 L529 51 L522 47 L511 46 L511 61 L498 78 L498 83 L502 85 L511 95 L521 98 L533 108 L518 125 L505 125 L492 139 L489 149 L472 166 L463 183 L459 187 L449 192 L449 198 L453 202 L447 206 L447 225 L452 228 L453 236 L457 242 L457 248 L459 250 L471 250 L477 243 L484 240 L488 218 L498 208 L503 208 L511 214 L517 214 L523 207 L538 207 L542 205 L560 204 L563 200 L567 203 L584 201 L584 196 L579 191 L558 176 L558 173 L561 170 L561 163 L554 162 L550 157 L553 150 L561 143 L573 143 L576 140 L589 141 L594 133 L594 129 L598 127 L598 124 L601 121 L598 106 L594 106 L590 103 L582 103 L580 101 L588 93 L587 87 L583 84 L586 81 L586 77 L575 72 L572 68Z", "M669 634 L669 640 L676 649 L677 665 L679 667 L676 672 L679 682 L674 689 L674 696 L677 699 L674 712 L678 719 L672 725 L667 735 L667 744 L670 749 L676 751 L726 753 L735 757 L749 775 L754 775 L759 772 L771 772 L787 766 L808 767 L808 762 L804 756 L804 751 L811 730 L810 714 L778 712 L770 707 L768 704 L767 693 L750 679 L745 666 L734 652 L734 645 L725 633 L726 623 L711 623 L676 634Z", "M557 205 L547 205 L536 208 L521 208 L515 215 L505 209 L497 209 L488 219 L486 236 L483 241 L477 243 L469 251 L457 251 L446 254 L446 258 L452 261 L452 267 L457 269 L457 282 L464 287 L468 293 L477 295 L503 312 L512 315 L527 331 L531 331 L547 302 L549 291 L563 278 L567 259 L572 250 L571 242 L566 233 L569 226 L569 221 L560 213Z", "M623 579 L619 579 L608 587 L595 602 L585 604 L582 612 L578 616 L566 616 L556 624 L558 647 L560 649 L557 653 L558 660 L556 668 L549 673 L549 681 L555 687 L580 693 L594 704 L602 704 L604 702 L605 691 L611 678 L609 664 L612 661 L621 658 L631 658 L668 665 L674 665 L677 661 L675 648 L668 637 L670 632 L668 623 L638 589Z", "M494 494 L495 500 L509 502 L515 508 L517 524 L521 537 L521 548 L527 549 L530 553 L529 556 L525 558 L525 562 L529 565 L535 576 L540 598 L537 602 L539 614 L545 614 L552 609 L558 609 L571 616 L577 616 L581 614 L585 604 L595 602 L607 588 L618 580 L618 576 L600 563 L590 549 L584 548 L578 542 L569 542 L562 538 L560 527 L554 523 L561 512 L561 498 L556 495 L536 495 L532 501 L525 502 L517 496 L510 496 L505 493Z", "M362 72 L379 86 L380 91 L384 95 L394 93 L400 101 L411 106 L415 112 L425 112 L436 108 L440 97 L444 93 L446 93 L452 100 L462 100 L468 103 L475 103 L476 95 L474 89 L479 85 L497 80 L509 65 L510 46 L504 47 L497 57 L493 57 L491 59 L490 56 L479 55 L478 57 L475 57 L471 53 L466 53 L464 55 L461 50 L455 49 L451 45 L446 45 L443 47 L441 44 L433 40 L426 40 L418 47 L414 47 L405 41 L398 41 L383 63 L362 68Z", "M536 592 L534 574 L524 560 L528 557 L529 551 L527 549 L517 550 L511 543 L504 544 L501 559 L491 567 L488 562 L484 562 L481 557 L477 557 L474 559 L465 559 L459 563 L440 564 L435 568 L435 573 L456 590 L479 613 L484 613 L488 610 L499 608Z"];
 const cities=[
-  {n:'بغداد',lon:44.36,lat:33.31,w:5},{n:'البصرة',lon:47.78,lat:30.51,w:3},{n:'الموصل',lon:43.13,lat:36.34,w:2},
-  {n:'أربيل',lon:44.01,lat:36.19,w:3},{n:'كركوك',lon:44.39,lat:35.47,w:2},{n:'النجف',lon:44.33,lat:32.0,w:1},
-  {n:'السليمانية',lon:45.43,lat:35.56,w:1},{n:'الناصرية',lon:46.26,lat:31.05,w:1},{n:'الرمادي',lon:43.3,lat:33.42,w:1},
-  {n:'كربلاء',lon:44.02,lat:32.61,w:1},{n:'دهوك',lon:42.99,lat:36.87,w:1},{n:'الكوت',lon:45.82,lat:32.5,w:1},{n:'العمارة',lon:47.14,lat:31.83,w:1}
+  {n:'بغداد',en:'Baghdad',lon:44.36,lat:33.31,w:5},{n:'البصرة',en:'Basra',lon:47.78,lat:30.51,w:3},{n:'الموصل',en:'Mosul',lon:43.13,lat:36.34,w:2},
+  {n:'أربيل',en:'Erbil',lon:44.01,lat:36.19,w:3},{n:'كركوك',en:'Kirkuk',lon:44.39,lat:35.47,w:2},{n:'النجف',en:'Najaf',lon:44.33,lat:32.0,w:1},
+  {n:'السليمانية',en:'Sulaymaniyah',lon:45.43,lat:35.56,w:1},{n:'الناصرية',en:'Nasiriyah',lon:46.26,lat:31.05,w:1},{n:'الرمادي',en:'Ramadi',lon:43.3,lat:33.42,w:1},
+  {n:'كربلاء',en:'Karbala',lon:44.02,lat:32.61,w:1},{n:'دهوك',en:'Duhok',lon:42.99,lat:36.87,w:1},{n:'الكوت',en:'Kut',lon:45.82,lat:32.5,w:1},{n:'العمارة',en:'Amarah',lon:47.14,lat:31.83,w:1}
 ];
 // projection: fitted to the traced map image (980x980 px) placed at offset (OX,OY)
 const OX=110,OY=40,CX=600,CY=530;
@@ -289,35 +318,35 @@ cities.forEach(c=>{[c.x,c.y]=P(c.lon,c.lat)});
 
 /* sources placed on a ring by rough geographic bearing from Iraq */
 const sources=[
-  {n:'روسيا',f:'🇷🇺',a:-90,w:5,code:'RU'},{n:'الصين',f:'🇨🇳',a:-25,w:5,code:'CN'},{n:'إيران',f:'🇮🇷',a:10,w:3,code:'IR'},{n:'الهند',f:'🇮🇳',a:45,w:2,code:'IN'},
-  {n:'كوريا الشمالية',f:'🇰🇵',a:-55,w:2,code:'KP'},{n:'فيتنام',f:'🇻🇳',a:70,w:1,code:'VN'},{n:'تركيا',f:'🇹🇷',a:-140,w:2,code:'TR'},{n:'ألمانيا',f:'🇩🇪',a:-120,w:2,code:'DE'},
-  {n:'هولندا',f:'🇳🇱',a:-105,w:2,code:'NL'},{n:'أوكرانيا',f:'🇺🇦',a:-75,w:1,code:'UA'},{n:'الولايات المتحدة',f:'🇺🇸',a:170,w:4,code:'US'},{n:'البرازيل',f:'🇧🇷',a:135,w:2,code:'BR'},
-  {n:'نيجيريا',f:'🇳🇬',a:110,w:1,code:'NG'},{n:'باكستان',f:'🇵🇰',a:30,w:1,code:'PK'},{n:'مجهول (Tor)',f:'🕳️',a:-160,w:3}
+  {n:'روسيا',en:'Russia',f:'🇷🇺',a:-90,w:5,code:'RU'},{n:'الصين',en:'China',f:'🇨🇳',a:-25,w:5,code:'CN'},{n:'إيران',en:'Iran',f:'🇮🇷',a:10,w:3,code:'IR'},{n:'الهند',en:'India',f:'🇮🇳',a:45,w:2,code:'IN'},
+  {n:'كوريا الشمالية',en:'North Korea',f:'🇰🇵',a:-55,w:2,code:'KP'},{n:'فيتنام',en:'Vietnam',f:'🇻🇳',a:70,w:1,code:'VN'},{n:'تركيا',en:'Turkey',f:'🇹🇷',a:-140,w:2,code:'TR'},{n:'ألمانيا',en:'Germany',f:'🇩🇪',a:-120,w:2,code:'DE'},
+  {n:'هولندا',en:'Netherlands',f:'🇳🇱',a:-105,w:2,code:'NL'},{n:'أوكرانيا',en:'Ukraine',f:'🇺🇦',a:-75,w:1,code:'UA'},{n:'الولايات المتحدة',en:'United States',f:'🇺🇸',a:170,w:4,code:'US'},{n:'البرازيل',en:'Brazil',f:'🇧🇷',a:135,w:2,code:'BR'},
+  {n:'نيجيريا',en:'Nigeria',f:'🇳🇬',a:110,w:1,code:'NG'},{n:'باكستان',en:'Pakistan',f:'🇵🇰',a:30,w:1,code:'PK'},{n:'مجهول (Tor)',en:'Unknown (Tor)',f:'🕳️',a:-160,w:3}
 ];
 const RING=545;
 sources.forEach(s=>{const r=s.a*Math.PI/180;s.x=CX+Math.cos(r)*RING;s.y=CY+Math.sin(r)*RING*0.9;});
 
 /* ---------- Threat catalogue ---------- */
 const types=[
-  {k:'DDoS',n:'حجب الخدمة DDoS',w:6,blk:.93,act:['تحويل الحركة إلى شبكة الغربلة (Scrubbing)','تفعيل تحديد المعدل على الحافة','عزل الحركة الضارة عبر BGP Flowspec']},
-  {k:'Phishing',n:'تصيّد احتيالي',w:5,blk:.82,act:['حجب النطاق وعزل البريد المشبوه','إشعار المستخدمين المستهدفين','إلغاء صلاحية الجلسات المتأثرة']},
-  {k:'Brute',n:'تخمين كلمات المرور',w:4,blk:.95,act:['قفل الحسابات مؤقتًا بعد 5 محاولات','حظر عنوان IP لمدة 24 ساعة','فرض التحقق الثنائي']},
-  {k:'SQLi',n:'حقن SQL',w:3,blk:.9,act:['صدّ عبر جدار تطبيقات الويب WAF','تعقيم المدخلات ومراجعة الاستعلامات','فحص قاعدة البيانات للتأكد من السلامة']},
-  {k:'Ransom',n:'برمجية فدية',w:2,blk:.78,act:['عزل الجهاز المصاب عن الشبكة','استعادة النسخ الاحتياطية دون اتصال','تشغيل خطة الاستجابة للحوادث']},
-  {k:'Malware',n:'برمجية خبيثة',w:4,blk:.88,act:['حجر الملف عبر EDR','تحديث توقيعات مكافحة الفيروسات','تتبّع مصدر التنزيل']},
-  {k:'Scan',n:'مسح المنافذ',w:6,blk:.98,act:['إسقاط الحزم صامتًا (Drop)','تسجيل البصمة وإضافتها للقائمة السوداء','تفعيل مصيدة Honeypot']},
-  {k:'XSS',n:'برمجة عبر المواقع XSS',w:2,blk:.9,act:['ترشيح الحمولة عبر WAF','تفعيل سياسة CSP الصارمة','ترقيع النموذج المتأثر']},
-  {k:'Exploit',n:'استغلال ثغرة',w:2,blk:.8,act:['تطبيق الترقيع الطارئ','إغلاق الخدمة المعرّضة مؤقتًا','فحص الأثر عبر سجلات الوصول']},
+  {k:'DDoS',n:'حجب الخدمة DDoS',en:'DDoS',w:6,blk:.93,act:['تحويل الحركة إلى شبكة الغربلة (Scrubbing)','تفعيل تحديد المعدل على الحافة','عزل الحركة الضارة عبر BGP Flowspec'],acte:['Traffic diverted to scrubbing centre','Edge rate limiting enabled','Malicious traffic dropped via BGP Flowspec']},
+  {k:'Phishing',n:'تصيّد احتيالي',en:'Phishing',w:5,blk:.82,act:['حجب النطاق وعزل البريد المشبوه','إشعار المستخدمين المستهدفين','إلغاء صلاحية الجلسات المتأثرة'],acte:['Domain blocked and mail quarantined','Targeted users notified','Affected sessions revoked']},
+  {k:'Brute',n:'تخمين كلمات المرور',en:'Brute force',w:4,blk:.95,act:['قفل الحسابات مؤقتًا بعد 5 محاولات','حظر عنوان IP لمدة 24 ساعة','فرض التحقق الثنائي'],acte:['Accounts locked after 5 attempts','Source IP banned for 24 hours','Two-factor authentication enforced']},
+  {k:'SQLi',n:'حقن SQL',en:'SQL injection',w:3,blk:.9,act:['صدّ عبر جدار تطبيقات الويب WAF','تعقيم المدخلات ومراجعة الاستعلامات','فحص قاعدة البيانات للتأكد من السلامة'],acte:['Blocked by the web application firewall','Inputs sanitised and queries reviewed','Database integrity check completed']},
+  {k:'Ransom',n:'برمجية فدية',en:'Ransomware',w:2,blk:.78,act:['عزل الجهاز المصاب عن الشبكة','استعادة النسخ الاحتياطية دون اتصال','تشغيل خطة الاستجابة للحوادث'],acte:['Infected host isolated from the network','Offline backups restored','Incident response plan activated']},
+  {k:'Malware',n:'برمجية خبيثة',en:'Malware',w:4,blk:.88,act:['حجر الملف عبر EDR','تحديث توقيعات مكافحة الفيروسات','تتبّع مصدر التنزيل'],acte:['File quarantined by EDR','Antivirus signatures updated','Download source traced']},
+  {k:'Scan',n:'مسح المنافذ',en:'Port scan',w:6,blk:.98,act:['إسقاط الحزم صامتًا (Drop)','تسجيل البصمة وإضافتها للقائمة السوداء','تفعيل مصيدة Honeypot'],acte:['Packets silently dropped','Fingerprint logged and blacklisted','Honeypot engaged']},
+  {k:'XSS',n:'برمجة عبر المواقع XSS',en:'Cross-site scripting',w:2,blk:.9,act:['ترشيح الحمولة عبر WAF','تفعيل سياسة CSP الصارمة','ترقيع النموذج المتأثر'],acte:['Payload filtered by the WAF','Strict CSP policy enforced','Affected form patched']},
+  {k:'Exploit',n:'استغلال ثغرة',en:'Exploit',w:2,blk:.8,act:['تطبيق الترقيع الطارئ','إغلاق الخدمة المعرّضة مؤقتًا','فحص الأثر عبر سجلات الوصول'],acte:['Emergency patch applied','Exposed service temporarily disabled','Impact reviewed in access logs']},
 ];
 const actors=['APT-Sandstorm','Fancy Wolf','Lazarus-Cluster','Mirai Botnet','Emotet Wave','Anonymous Cell','Killnet-Node','ScatterSpider','UNC-4412','Volt Shadow','Mummy Spider','DarkHalo Ops','Script Kiddie','Bot Farm #77','Cobalt Mirage'];
 const targets=[
-  {n:'بوابة الخدمات الحكومية الإلكترونية',d:'e-services.gov.iq',s:'حكومي'},{n:'نظام الدفع في مصرف تجاري محلي',d:'pay.bank-iq.local',s:'مصرفي'},
-  {n:'شبكة شركة اتصالات وطنية',d:'core.telecom-iq.net',s:'اتصالات'},{n:'نظام SCADA لمحطة كهرباء',d:'scada.power-iq.grid',s:'بنية تحتية'},
-  {n:'بوابة شركة نفط حكومية',d:'portal.oil-iq.gov',s:'نفط وغاز'},{n:'نظام معلومات مستشفى تعليمي',d:'his.hospital-iq.med',s:'صحي'},
-  {n:'بوابة جامعة حكومية',d:'sis.uni-iq.edu',s:'تعليم'},{n:'موقع إخباري رئيسي',d:'news-iq.media',s:'إعلام'},
-  {n:'نظام الجمارك والمنافذ الحدودية',d:'customs.border-iq.gov',s:'حكومي'},{n:'منصة التجارة الإلكترونية',d:'shop-iq.store',s:'تجاري'},
-  {n:'نظام إدارة المطار',d:'ops.airport-iq.aero',s:'نقل'},{n:'مركز بيانات سحابي محلي',d:'dc1.cloud-iq.host',s:'تقني'},
-  {n:'نظام التسجيل الانتخابي',d:'reg.election-iq.gov',s:'حكومي'},{n:'شبكة وزارة خدمية',d:'intranet.ministry-iq.gov',s:'حكومي'},
+  {n:'بوابة الخدمات الحكومية الإلكترونية',en:'Government e-services portal',d:'e-services.gov.iq',s:'حكومي',se:'Government'},{n:'نظام الدفع في مصرف تجاري محلي',en:'Commercial bank payment system',d:'pay.bank-iq.local',s:'مصرفي',se:'Banking'},
+  {n:'شبكة شركة اتصالات وطنية',en:'National telecom core network',d:'core.telecom-iq.net',s:'اتصالات',se:'Telecom'},{n:'نظام SCADA لمحطة كهرباء',en:'Power plant SCADA system',d:'scada.power-iq.grid',s:'بنية تحتية',se:'Infrastructure'},
+  {n:'بوابة شركة نفط حكومية',en:'State oil company portal',d:'portal.oil-iq.gov',s:'نفط وغاز',se:'Oil and gas'},{n:'نظام معلومات مستشفى تعليمي',en:'Teaching hospital information system',d:'his.hospital-iq.med',s:'صحي',se:'Healthcare'},
+  {n:'بوابة جامعة حكومية',en:'Public university portal',d:'sis.uni-iq.edu',s:'تعليم',se:'Education'},{n:'موقع إخباري رئيسي',en:'Major news outlet',d:'news-iq.media',s:'إعلام',se:'Media'},
+  {n:'نظام الجمارك والمنافذ الحدودية',en:'Customs and border crossings system',d:'customs.border-iq.gov',s:'حكومي',se:'Government'},{n:'منصة التجارة الإلكترونية',en:'E-commerce platform',d:'shop-iq.store',s:'تجاري',se:'Retail'},
+  {n:'نظام إدارة المطار',en:'Airport operations system',d:'ops.airport-iq.aero',s:'نقل',se:'Transport'},{n:'مركز بيانات سحابي محلي',en:'Local cloud data centre',d:'dc1.cloud-iq.host',s:'تقني',se:'Technology'},
+  {n:'نظام التسجيل الانتخابي',en:'Voter registration system',d:'reg.election-iq.gov',s:'حكومي',se:'Government'},{n:'شبكة وزارة خدمية',en:'Ministry intranet',d:'intranet.ministry-iq.gov',s:'حكومي',se:'Government'},
 ];
 const cves=['CVE-2026-2231','CVE-2025-49113','CVE-2026-0402','CVE-2025-31324','CVE-2026-1170','CVE-2024-3400','CVE-2025-53770'];
 const ports=[22,23,80,443,445,1433,3306,3389,8080,8443,502,5900];
@@ -334,7 +363,68 @@ const rnd=(a,b)=>Math.floor(a+Math.random()*(b-a+1));
 const ip=()=>`${rnd(1,223)}.${rnd(0,255)}.${rnd(0,255)}.${rnd(1,254)}`;
 const fmt=d=>d.toTimeString().slice(0,8);
 const COL={blocked:'#22D3EE',breached:'#F43F5E',inv:'#FBBF24'};
-const LBL={blocked:'صُدّ',breached:'اختراق',inv:'قيد التحقيق'};
+let L=(localStorage.getItem('iqs-lang')||'ar');
+let TH=(localStorage.getItem('iqs-theme')||'dark');
+const I18N={
+ ar:{soc:'مركز العمليات السيبرانية',live:'بث مباشر',threat:'مستوى التهديد:',systime:'وقت النظام:',session:'الجلسة:',
+  summary:'ملخص الجلسة',s_total:'إجمالي الهجمات',s_blocked:'تم صدّها',s_breached:'اختراقات ناجحة',s_inv:'قيد التحقيق',
+  atypes:'أنواع الهجمات',topsrc:'أكثر المصادر نشاطًا',gstats:'إحصاءات عالمية حقيقية',nodata:'لا توجد بيانات بعد — يعمل المجمِّع كل 5 دقائق',
+  pause:'إيقاف مؤقت',resume:'استئناف',reset:'تصفير العدادات',speed:'السرعة',
+  f_all:'الكل',f_blocked:'صُدّت',f_breached:'اختراق',f_inv:'تحقيق',
+  waitfirst:'بانتظار أول حدث…',lg_b:'صُدّ الهجوم',lg_r:'اختراق ناجح',lg_a:'قيد التحقيق',
+  tab_log:'سجل العراق',tab_g:'بث ThreatCloud',gwait:'بانتظار بث الأحداث العالمية من Check Point ThreatCloud…',
+  kasp:'خريطة Kaspersky الرسمية (ويدجت مُضمَّن) — بيانات حقيقية من شبكة Kaspersky Security Network.',
+  th_time:'الوقت',th_status:'الحالة',th_type:'نوع الهجوم',th_actor:'المهاجم',th_src:'المصدر',th_tgt:'الهدف',th_city:'المدينة',th_act:'الإجراء المتخذ',
+  foot:'الإحصاءات وبث ThreatCloud وخريطة Kaspersky حقيقية؛ أقواس الخريطة غير الموسومة بـ«حقيقي» محاكاة تدريبية',
+  st_blocked:'صُدّ',st_breached:'اختراق',st_inv:'قيد التحقيق',real:'حقيقي',
+  lvl1:'منخفض',lvl2:'متوسط',lvl3:'مرتفع',lvl4:'حرج',lvl5:'طارئ',
+  from:'من',toward:'نحو',lastev:'آخر حدث:',on:'على',unknown:'غير معروف',
+  m_inc:'الحادث',m_close:'إغلاق',m_type:'نوع الهجوم',m_actor:'المهاجم',m_srcco:'دولة المصدر',m_srcip:'عنوان المصدر',m_vol:'الحجم',
+  m_tgt:'الهدف',m_dom:'النطاق',m_sec:'القطاع',m_city:'المدينة',m_cve:'الثغرة',m_tl:'تسلسل الاستجابة',
+  m_disc_real:'حدث حقيقي من بث Check Point ThreatCloud (المصدر والنوع والتوقيع حقيقية؛ الهدف داخل العراق غير مُعلَن).',
+  m_disc_sim:'هذا حدث محاكاة يُولَّد داخل المتصفح لأغراض التدريب والعرض؛ الأهداف والمهاجمون والعناوين افتراضية.',
+  stp1:'رصد حركة غير اعتيادية من',stp1b:'عبر مستشعرات الحافة',stp2:'تصنيف الحدث:',stp2b:'ربطه بالمجموعة',
+  stp_ok:'إغلاق الحدث — لا أثر على الخدمة',stp_bad:'فشل الصدّ الأولي — الحمولة وصلت إلى النظام المستهدف',
+  stp_ir:'تفعيل خطة الاستجابة للحوادث وعزل الشريحة المتأثرة',stp_rec:'تقييم الأثر واستعادة الخدمة من النسخة الاحتياطية',
+  stp_hunt:'مؤشرات غير حاسمة — تحويل الحدث إلى فريق الصيد (Threat Hunting)',stp_siem:'قيد المراجعة اليدوية عبر SIEM',
+  act_breach:'تم رصد اختراق — عزل النظام وبدء الاستجابة للحادث',act_inv:'تحليل السلوك عبر SIEM — بانتظار تأكيد المؤشرات',
+  act_real:'رُصد وصُدّ بواسطة Check Point ThreatCloud',
+  rt_n:'شبكة محمية بواسطة Check Point في العراق',rt_s:'غير محدد',
+  weights:'(أوزان حقيقية من ThreatCloud)',ago:'قبل',min:'د',
+  md_live:'بيانات حقيقية · Check Point ThreatCloud ·',md_noev:'محاكاة — لا توجد أحداث في آخر تحديث',md_fail:'محاكاة — تعذّر جلب data/live.json',md_wait:'محاكاة — بانتظار البيانات الحية',
+  g_today:'هجمات اليوم عالميًا (Check Point)',g_win:'أحداث خلال نافذة',g_sec:'ث',g_co:'أكثر الدول استهدافًا: ',g_ind:'أكثر القطاعات: ',g_mal:'أنواع البرمجيات: ',g_none:'لا توجد بيانات'},
+ en:{soc:'Cyber Operations Center',live:'Live',threat:'Threat level:',systime:'System time:',session:'Session:',
+  summary:'Session summary',s_total:'Total attacks',s_blocked:'Blocked',s_breached:'Breaches',s_inv:'Investigating',
+  atypes:'Attack types',topsrc:'Most active sources',gstats:'Live global stats',nodata:'No data yet — the collector runs every 5 minutes',
+  pause:'Pause',resume:'Resume',reset:'Reset counters',speed:'Speed',
+  f_all:'All',f_blocked:'Blocked',f_breached:'Breached',f_inv:'Investigating',
+  waitfirst:'Waiting for the first event…',lg_b:'Attack blocked',lg_r:'Successful breach',lg_a:'Investigating',
+  tab_log:'Iraq log',tab_g:'ThreatCloud feed',gwait:'Waiting for the global feed from Check Point ThreatCloud…',
+  kasp:'Official Kaspersky map (embedded widget) — real data from the Kaspersky Security Network.',
+  th_time:'Time',th_status:'Status',th_type:'Attack type',th_actor:'Actor',th_src:'Source',th_tgt:'Target',th_city:'City',th_act:'Action taken',
+  foot:'Stats, the ThreatCloud feed and the Kaspersky map are real; map arcs not tagged REAL are training simulation',
+  st_blocked:'Blocked',st_breached:'Breached',st_inv:'Investigating',real:'REAL',
+  lvl1:'Low',lvl2:'Moderate',lvl3:'High',lvl4:'Critical',lvl5:'Emergency',
+  from:'from',toward:'to',lastev:'Last event:',on:'on',unknown:'Unknown',
+  m_inc:'Incident',m_close:'Close',m_type:'Attack type',m_actor:'Actor',m_srcco:'Source country',m_srcip:'Source address',m_vol:'Volume',
+  m_tgt:'Target',m_dom:'Domain',m_sec:'Sector',m_city:'City',m_cve:'Vulnerability',m_tl:'Response timeline',
+  m_disc_real:'Real event from the Check Point ThreatCloud feed (source, type and signature are real; the target inside Iraq is not disclosed).',
+  m_disc_sim:'Simulated event generated in the browser for training and demonstration; targets, actors and addresses are fictional.',
+  stp1:'Unusual traffic detected from',stp1b:'via edge sensors',stp2:'Event classified:',stp2b:'attributed to',
+  stp_ok:'Event closed — no service impact',stp_bad:'Initial block failed — payload reached the target system',
+  stp_ir:'Incident response plan activated, affected segment isolated',stp_rec:'Impact assessed, service restored from backup',
+  stp_hunt:'Inconclusive indicators — escalated to threat hunting',stp_siem:'Under manual review in the SIEM',
+  act_breach:'Breach detected — system isolated, incident response started',act_inv:'Behaviour analysis in the SIEM — awaiting indicator confirmation',
+  act_real:'Detected and blocked by Check Point ThreatCloud',
+  rt_n:'Check Point protected network in Iraq',rt_s:'Undisclosed',
+  weights:'(real weights from ThreatCloud)',ago:'',min:'min ago',
+  md_live:'Live data · Check Point ThreatCloud ·',md_noev:'Simulation — no events in the last refresh',md_fail:'Simulation — could not load data/live.json',md_wait:'Simulation — waiting for live data',
+  g_today:'Attacks worldwide today (Check Point)',g_win:'Events in a',g_sec:'s window',g_co:'Most targeted countries: ',g_ind:'Top sectors: ',g_mal:'Malware types: ',g_none:'No data'}
+};
+const t=k=>(I18N[L][k]!==undefined?I18N[L][k]:k);
+const NM=o=>(L==='en'&&o&&o.en)?o.en:(o?o.n:'');
+const SEC=o=>(L==='en'&&o&&o.se)?o.se:(o?o.s:'');
+const LBL=new Proxy({},{get:(_,k)=>t('st_'+String(k))});
 
 /* ---------- Draw base map ---------- */
 const svgNS='http://www.w3.org/2000/svg';
@@ -351,12 +441,12 @@ const el=(t,a={})=>{const e=document.createElementNS(svgNS,t);for(const k in a)e
   cities.forEach(c=>{
     g.appendChild(el('circle',{cx:c.x,cy:c.y,r:c.w>2?6:4.5,class:'city'}));
     g.appendChild(el('circle',{cx:c.x,cy:c.y,r:c.w>2?14:10,class:'city-ring'}));
-    const t=el('text',{x:c.x,y:c.y-17,class:'city-label'});t.textContent=c.n;g.appendChild(t);
+    const t=el('text',{x:c.x,y:c.y-17,class:'city-label'});t.textContent=NM(c);c.lblEl=t;g.appendChild(t);
   });
   const s=$('sources');
   sources.forEach(o=>{
     s.appendChild(el('rect',{x:o.x-6,y:o.y-6,width:12,height:12,class:'src',transform:`rotate(45 ${o.x} ${o.y})`}));
-    const t=el('text',{x:o.x,y:o.y+(o.y<CY?-16:28),class:'src-label','text-anchor':'middle'});t.textContent=o.f+' '+o.n;s.appendChild(t);
+    const t=el('text',{x:o.x,y:o.y+(o.y<CY?-16:28),class:'src-label','text-anchor':'middle'});t.textContent=o.f+' '+NM(o);o.lblEl=t;s.appendChild(t);
   });
 })();
 
@@ -401,38 +491,44 @@ function makeIncident(){
     id:st.total+1,time:new Date(),type,src,city,tgt,status,actor:pick(actors),ip:ip(),port:pick(ports),
     cve:['Exploit','SQLi','XSS','Ransom'].includes(type.k)?pick(cves):null,
     packets:type.k==='DDoS'?rnd(12,940)+' Gbps':rnd(1,900)+' req/s',
-    action:status==='blocked'?pick(type.act):status==='breached'?'تم رصد اختراق — عزل النظام وبدء الاستجابة للحادث':'تحليل السلوك عبر SIEM — بانتظار تأكيد المؤشرات',
+    actIdx:rnd(0,2),
     dur:rnd(2,340)
   };
   return inc;
+}
+function actText(inc){
+  if(inc.real)return t('act_real')+(inc.actor&&inc.actor!=='—'?' ('+inc.actor+')':'');
+  if(inc.status==='blocked'){const a=(L==='en'?inc.type.acte:inc.type.act);return a[(inc.actIdx||0)%a.length]}
+  return inc.status==='breached'?t('act_breach'):t('act_inv');
 }
 function record(inc){
   st.total++;st[inc.status]++;st.types[inc.type.k]++;st.origins[inc.src.n]++;
   st.incidents.unshift(inc);if(st.incidents.length>200)st.incidents.pop();
   st.recent.push(inc.status);if(st.recent.length>25)st.recent.shift();
   fire(inc);renderStats();addLog(inc);addRow(inc);
-  $('lastEvent').textContent=`آخر حدث: ${inc.type.n} على ${inc.city.n} — ${LBL[inc.status]}`;
+  $('lastEvent').textContent=`${t('lastev')} ${NM(inc.type)} ${t('on')} ${NM(inc.city)} — ${LBL[inc.status]}`;
 }
 
 /* ---------- Rendering panels ---------- */
 function renderStats(){
   $('sTotal').textContent=st.total;$('sBlocked').textContent=st.blocked;$('sBreached').textContent=st.breached;$('sInv').textContent=st.inv;
   const max=Math.max(1,...Object.values(st.types));
-  $('types').innerHTML=types.map(t=>`<div class="type"><span>${t.n}</span><div class="track"><i style="width:${st.types[t.k]/max*100}%"></i></div><span class="n num">${st.types[t.k]}</span></div>`).join('');
+  $('types').innerHTML=types.map(x=>`<div class="type"><span>${NM(x)}</span><div class="track"><i style="width:${st.types[x.k]/max*100}%"></i></div><span class="n num">${st.types[x.k]}</span></div>`).join('');
   const top=sources.slice().sort((a,b)=>st.origins[b.n]-st.origins[a.n]).slice(0,6);
-  $('origins').innerHTML=top.map(s=>`<div class="origin"><span>${s.f} ${s.n}</span><span class="n num">${st.origins[s.n]}</span></div>`).join('');
+  $('origins').innerHTML=top.map(s=>`<div class="origin"><span>${s.f} ${NM(s)}</span><span class="n num">${st.origins[s.n]}</span></div>`).join('');
   const br=st.recent.filter(x=>x==='breached').length,inv=st.recent.filter(x=>x==='inv').length;
-  let lvl=1,lbl='منخفض';
-  if(st.recent.length>5){lvl=2;lbl='متوسط'}
-  if(br>=1||inv>=3){lvl=3;lbl='مرتفع'}
-  if(br>=2){lvl=4;lbl='حرج'}
-  if(br>=4){lvl=5;lbl='طارئ'}
+  let lvl=1;
+  if(st.recent.length>5)lvl=2;
+  if(br>=1||inv>=3)lvl=3;
+  if(br>=2)lvl=4;
+  if(br>=4)lvl=5;
+  const lbl=t('lvl'+lvl);
   $('threat').dataset.level=lvl;$('threatLabel').textContent=lbl;
 }
 function addLog(inc){
   if(st.filter!=='all'&&st.filter!==inc.status)return;
   const e=document.createElement('div');e.className='entry';
-  e.innerHTML=`<span class="t num">${fmt(inc.time)}</span><div class="body"><span class="st ${inc.status}">${LBL[inc.status]}</span>${inc.real?'<span class="real">حقيقي</span>':''}<b>${inc.type.n}</b> من ${inc.src.f} ${inc.src.n} <span class="num" style="color:var(--dim);font-size:11px">${inc.ip}</span> نحو <b>${inc.tgt.n}</b> — ${inc.city.n}<div class="act">${inc.action}</div></div>`;
+  e.innerHTML=`<span class="t num">${fmt(inc.time)}</span><div class="body"><span class="st ${inc.status}">${LBL[inc.status]}</span>${inc.real?`<span class="real">${t('real')}</span>`:''}<b>${NM(inc.type)}</b> ${t('from')} ${inc.src.f} ${NM(inc.src)} <span class="num" style="color:var(--dim);font-size:11px">${inc.ip}</span> ${t('toward')} <b>${NM(inc.tgt)}</b> — ${NM(inc.city)}<div class="act">${actText(inc)}</div></div>`;
   e.onclick=()=>openModal(inc);
   const log=$('log');log.prepend(e);while(log.children.length>60)log.lastChild.remove();
   $('logCount').textContent=log.children.length;
@@ -440,7 +536,7 @@ function addLog(inc){
 function addRow(inc){
   if(st.filter!=='all'&&st.filter!==inc.status)return;
   const tr=document.createElement('tr');tr.className=inc.status;
-  tr.innerHTML=`<td class="num">${fmt(inc.time)}</td><td><span class="st ${inc.status}">${LBL[inc.status]}</span>${inc.real?' <span class="real">حقيقي</span>':''}</td><td>${inc.type.n}${inc.cve?` <span class="cve">${inc.cve}</span>`:''}</td><td class="num" style="text-align:right">${inc.actor}</td><td>${inc.src.f} ${inc.src.n} <span class="cve">${inc.ip}</span></td><td>${inc.tgt.n} <span class="cve">${inc.tgt.d}</span></td><td>${inc.city.n}</td><td>${inc.action}</td>`;
+  tr.innerHTML=`<td class="num">${fmt(inc.time)}</td><td><span class="st ${inc.status}">${LBL[inc.status]}</span>${inc.real?` <span class="real">${t('real')}</span>`:''}</td><td>${NM(inc.type)}${inc.cve?` <span class="cve">${inc.cve}</span>`:''}</td><td class="num">${inc.actor}</td><td>${inc.src.f} ${NM(inc.src)} <span class="cve">${inc.ip}</span></td><td>${NM(inc.tgt)} <span class="cve">${inc.tgt.d}</span></td><td>${NM(inc.city)}</td><td>${actText(inc)}</td>`;
   tr.onclick=()=>openModal(inc);
   const tb=$('tbody');tb.prepend(tr);while(tb.children.length>40)tb.lastChild.remove();
 }
@@ -453,20 +549,20 @@ function rerender(){
 function openModal(inc){
   const t0=inc.time.getTime();const ts=s=>fmt(new Date(t0+s*1000));
   let steps=[
-    [0,`رصد حركة غير اعتيادية من ${inc.ip}:${inc.port} عبر مستشعرات الحافة`,''],
-    [2,`تصنيف الحدث: ${inc.type.n} — ربطه بالمجموعة ${inc.actor}`,''],
+    [0,`${t('stp1')} ${inc.ip}:${inc.port} ${t('stp1b')}`,''],
+    [2,`${t('stp2')} ${NM(inc.type)} — ${t('stp2b')} ${inc.actor}`,''],
   ];
-  if(inc.status==='blocked')steps.push([4,inc.action,'ok'],[4+Math.min(inc.dur,60),'إغلاق الحدث — لا أثر على الخدمة','ok']);
-  else if(inc.status==='breached')steps.push([6,'فشل الصدّ الأولي — الحمولة وصلت إلى النظام المستهدف','bad'],[9,'تفعيل خطة الاستجابة للحوادث وعزل الشريحة المتأثرة','ok'],[9+inc.dur,'تقييم الأثر واستعادة الخدمة من النسخة الاحتياطية','ok']);
-  else steps.push([5,'مؤشرات غير حاسمة — تحويل الحدث إلى فريق الصيد (Threat Hunting)','' ],[5+inc.dur,'قيد المراجعة اليدوية عبر SIEM','']);
+  if(inc.status==='blocked')steps.push([4,actText(inc),'ok'],[4+Math.min(inc.dur,60),t('stp_ok'),'ok']);
+  else if(inc.status==='breached')steps.push([6,t('stp_bad'),'bad'],[9,t('stp_ir'),'ok'],[9+inc.dur,t('stp_rec'),'ok']);
+  else steps.push([5,t('stp_hunt'),''],[5+inc.dur,t('stp_siem'),'']);
   $('card').className='card '+inc.status;
-  $('card').innerHTML=`<h3><span>الحادث #${String(inc.id).padStart(5,'0')} — <span class="st ${inc.status}">${LBL[inc.status]}</span></span><button onclick="closeModal()">إغلاق</button></h3>
+  $('card').innerHTML=`<h3><span>${t('m_inc')} #${String(inc.id).padStart(5,'0')} — <span class="st ${inc.status}">${LBL[inc.status]}</span></span><button onclick="closeModal()">${t('m_close')}</button></h3>
   <div class="grid">
-    <dl><div><dt>نوع الهجوم</dt><dd>${inc.type.n}</dd></div><div><dt>المهاجم</dt><dd class="num" style="text-align:right">${inc.actor}</dd></div><div><dt>دولة المصدر</dt><dd>${inc.src.f} ${inc.src.n}</dd></div><div><dt>عنوان المصدر</dt><dd class="num" style="text-align:right">${inc.ip}:${inc.port}</dd></div><div><dt>الحجم</dt><dd class="num" style="text-align:right">${inc.packets}</dd></div></dl>
-    <dl><div><dt>الهدف</dt><dd>${inc.tgt.n}</dd></div><div><dt>النطاق</dt><dd class="num" style="text-align:right">${inc.tgt.d}</dd></div><div><dt>القطاع</dt><dd>${inc.tgt.s}</dd></div><div><dt>المدينة</dt><dd>${inc.city.n}</dd></div><div><dt>الثغرة</dt><dd class="num" style="text-align:right">${inc.cve||'—'}</dd></div></dl>
+    <dl><div><dt>${t('m_type')}</dt><dd>${NM(inc.type)}</dd></div><div><dt>${t('m_actor')}</dt><dd class="num">${inc.actor}</dd></div><div><dt>${t('m_srcco')}</dt><dd>${inc.src.f} ${NM(inc.src)}</dd></div><div><dt>${t('m_srcip')}</dt><dd class="num">${inc.ip}:${inc.port}</dd></div><div><dt>${t('m_vol')}</dt><dd class="num">${inc.packets}</dd></div></dl>
+    <dl><div><dt>${t('m_tgt')}</dt><dd>${NM(inc.tgt)}</dd></div><div><dt>${t('m_dom')}</dt><dd class="num">${inc.tgt.d}</dd></div><div><dt>${t('m_sec')}</dt><dd>${SEC(inc.tgt)}</dd></div><div><dt>${t('m_city')}</dt><dd>${NM(inc.city)}</dd></div><div><dt>${t('m_cve')}</dt><dd class="num">${inc.cve||'—'}</dd></div></dl>
   </div>
-  <div class="timeline"><h4>تسلسل الاستجابة</h4>${steps.map(s=>`<div class="step ${s[2]}"><span class="t">${ts(s[0])}</span><span>${s[1]}</span></div>`).join('')}</div>
-  <div class="disclaimer">${inc.real?'حدث حقيقي من بث Check Point ThreatCloud (المصدر والنوع والتوقيع حقيقية؛ الهدف داخل العراق غير مُعلَن).':'هذا حدث محاكاة يُولَّد داخل المتصفح لأغراض التدريب والعرض؛ الأهداف والمهاجمون والعناوين افتراضية.'}</div>`;
+  <div class="timeline"><h4>${t('m_tl')}</h4>${steps.map(s=>`<div class="step ${s[2]}"><span class="t">${ts(s[0])}</span><span>${s[1]}</span></div>`).join('')}</div>
+  <div class="disclaimer">${inc.real?t('m_disc_real'):t('m_disc_sim')}</div>`;
   $('modal').classList.add('open');
 }
 function closeModal(){$('modal').classList.remove('open')}
@@ -474,10 +570,13 @@ $('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 
 /* ---------- Live data (Check Point ThreatCloud via data/live.json) ---------- */
-const LIVE={loaded:false,events:[],iq:[],queue:[],seen:new Set(),updated:null,srcWeights:null};
-const RN=(()=>{try{return new Intl.DisplayNames(['ar'],{type:'region'})}catch(e){return null}})();
+const LIVE={cp:null,loaded:false,events:[],iq:[],queue:[],seen:new Set(),updated:null,srcWeights:null};
+const mkRN=lg=>{try{return new Intl.DisplayNames([lg],{type:'region'})}catch(e){return null}};
+const RNA=mkRN('ar'),RNE=mkRN('en');
 const AR_NAMES={US:'الولايات المتحدة',CN:'الصين',RU:'روسيا',IR:'إيران',IN:'الهند',DE:'ألمانيا',NL:'هولندا',BR:'البرازيل',GB:'بريطانيا',FR:'فرنسا',TR:'تركيا',KR:'كوريا الجنوبية',KP:'كوريا الشمالية',VN:'فيتنام',UA:'أوكرانيا',PK:'باكستان',NG:'نيجيريا',IQ:'العراق',SA:'السعودية',AE:'الإمارات',IL:'إسرائيل',SG:'سنغافورة',JP:'اليابان',ID:'إندونيسيا',HK:'هونغ كونغ',CA:'كندا',AU:'أستراليا',BG:'بلغاريا',RO:'رومانيا',PL:'بولندا',SE:'السويد',ES:'إسبانيا',IT:'إيطاليا',EG:'مصر',AR:'الأرجنتين',MX:'المكسيك',TH:'تايلاند',ZA:'جنوب أفريقيا',TW:'تايوان',CH:'سويسرا',LT:'ليتوانيا',BD:'بنغلاديش',ET:'إثيوبيا',NP:'نيبال',UZ:'أوزبكستان',MN:'منغوليا'};
-const cname=c=>c?(AR_NAMES[c]||(RN&&RN.of(c))||c):'غير معروف';
+const cnameAr=c=>c?(AR_NAMES[c]||(RNA&&RNA.of(c))||c):'غير معروف';
+const cnameEn=c=>c?((RNE&&RNE.of(c))||c):'Unknown';
+const cname=c=>L==='en'?cnameEn(c):cnameAr(c);
 const flag=c=>(c&&/^[A-Z]{2}$/.test(c))?String.fromCodePoint(...[...c].map(ch=>0x1F1E6+ch.charCodeAt(0)-65)):'🕳️';
 const TYPE_MAP={exploit:'Exploit',malware:'Malware',phishing:'Phishing',bot:'Malware',ddos:'DDoS'};
 const dyn={};
@@ -487,11 +586,11 @@ function sourceFor(code,lat,lon){
   let a;
   if(typeof lat==='number'&&typeof lon==='number'){a=Math.atan2(-(lat-33.3),(lon-43.7)*Math.cos(33.3*Math.PI/180))*180/Math.PI}
   else a=Math.random()*360;
-  const r=a*Math.PI/180;const s={n:cname(code),f:flag(code),a,w:1,code,x:CX+Math.cos(r)*RING,y:CY+Math.sin(r)*RING*0.9};
+  const r=a*Math.PI/180;const s={n:cnameAr(code),en:cnameEn(code),f:flag(code),a,w:1,code,x:CX+Math.cos(r)*RING,y:CY+Math.sin(r)*RING*0.9};
   dyn[code]=s;st.origins[s.n]=0;
   const g=$('sources');
   g.appendChild(el('rect',{x:s.x-6,y:s.y-6,width:12,height:12,class:'src',transform:`rotate(45 ${s.x} ${s.y})`}));
-  const t=el('text',{x:s.x,y:s.y+(s.y<CY?-16:28),class:'src-label','text-anchor':'middle'});t.textContent=s.f+' '+s.n;g.appendChild(t);
+  const t=el('text',{x:s.x,y:s.y+(s.y<CY?-16:28),class:'src-label','text-anchor':'middle'});t.textContent=s.f+' '+NM(s);s.lblEl=t;g.appendChild(t);
   sources.push(s);return s;
 }
 const nearestCity=(lat,lon)=>{if(typeof lat!=='number')return cities[0];let b=cities[0],bd=1e9;for(const c of cities){const d=(c.lat-lat)**2+(c.lon-lon)**2;if(d<bd){bd=d;b=c}}return b};
@@ -499,10 +598,10 @@ function realIncident(e){
   const type=types.find(t=>t.k===(TYPE_MAP[e.a_t]||'Exploit'))||types[0];
   const src=sourceFor(e.s_co||'??',e.s_la,e.s_lo);
   const city=e.d_co==='IQ'?nearestCity(e.d_la,e.d_lo):cities[0];
-  return {id:st.total+1,time:new Date((e.ts||Date.now()/1000)*1000),type,src,city,tgt:{n:'شبكة محمية بواسطة Check Point في العراق',d:'ThreatCloud sensor · IQ',s:'غير محدد'},status:'blocked',actor:e.a_n||'—',ip:'—',port:'—',cve:null,packets:'—',action:'رُصد وصُدّ بواسطة Check Point ThreatCloud (توقيع: '+(e.a_n||'')+')',dur:1,real:true};
+  return {id:st.total+1,time:new Date((e.ts||Date.now()/1000)*1000),type,src,city,tgt:{n:'شبكة محمية بواسطة Check Point في العراق',en:'Check Point protected network in Iraq',d:'ThreatCloud sensor · IQ',s:'غير محدد',se:'Undisclosed'},status:'blocked',actor:e.a_n||'—',ip:'—',port:'—',cve:null,packets:'—',dur:1,real:true};
 }
 function addGlobal(e){
-  const g=$('gfeed');if(g.firstChild&&g.firstChild.querySelector('.body')&&g.children.length===1&&g.firstChild.textContent.includes('بانتظار'))g.innerHTML='';
+  const g=$('gfeed');if(g.children.length===1&&g.firstChild.classList.contains('gph'))g.innerHTML='';
   const d=document.createElement('div');d.className='entry';
   const t=(TYPE_MAP[e.a_t]||e.a_t||'').toLowerCase();
   d.innerHTML=`<span class="t num">${fmt(new Date((e.ts||Date.now()/1000)*1000))}</span><div class="body"><span class="st blocked">${e.a_t||'—'}</span>${flag(e.s_co)} ${cname(e.s_co)} ${e.s_s?'('+e.s_s+')':''} ← ${flag(e.d_co)} <b>${cname(e.d_co)}</b> ${e.d_s?'('+e.d_s+')':''}<div class="act">${e.a_n||''}</div></div>`;
@@ -511,12 +610,12 @@ function addGlobal(e){
 }
 function renderGlobal(cp){
   const top=cp.top||{};const rows=[];
-  if(cp.today)rows.push(['هجمات اليوم عالميًا (Check Point)',Number(cp.today).toLocaleString('en')]);
-  if(cp.events)rows.push([`أحداث خلال نافذة ${cp.window_seconds||55} ث`,cp.events.length]);
-  (top.countries||[]).slice(0,5).forEach((c,i)=>rows.push([(i?'':'أكثر الدول استهدافًا: ')+flag(c.id)+' '+cname(c.id),Math.round(c.fraction*100)+'%']));
-  (top.industries||[]).slice(0,3).forEach((c,i)=>rows.push([(i?'':'أكثر القطاعات: ')+c.id,Math.round(c.fraction*100)+'%']));
-  (top.malwareTypes||[]).slice(0,3).forEach((c,i)=>rows.push([(i?'':'أنواع البرمجيات: ')+c.id,Math.round(c.fraction*100)+'%']));
-  $('gstats').innerHTML=rows.map(r=>`<div class="row"><span class="k">${r[0]}</span><span class="num">${r[1]}</span></div>`).join('')||'<div class="row"><span class="k">لا توجد بيانات</span></div>';
+  if(cp.today)rows.push([t('g_today'),Number(cp.today).toLocaleString('en')]);
+  if(cp.events)rows.push([`${t('g_win')} ${cp.window_seconds||55} ${t('g_sec')}`,cp.events.length]);
+  (top.countries||[]).slice(0,5).forEach((c,i)=>rows.push([(i?'':t('g_co'))+flag(c.id)+' '+cname(c.id),Math.round(c.fraction*100)+'%']));
+  (top.industries||[]).slice(0,3).forEach((c,i)=>rows.push([(i?'':t('g_ind'))+c.id,Math.round(c.fraction*100)+'%']));
+  (top.malwareTypes||[]).slice(0,3).forEach((c,i)=>rows.push([(i?'':t('g_mal'))+c.id,Math.round(c.fraction*100)+'%']));
+  $('gstats').innerHTML=rows.map(r=>`<div class="row"><span class="k">${r[0]}</span><span class="num">${r[1]}</span></div>`).join('')||`<div class="row"><span class="k">${t('g_none')}</span></div>`;
 }
 async function loadLive(){
   try{
@@ -526,13 +625,13 @@ async function loadLive(){
     const fresh=cp.events&&cp.events.length;
     const ev=(cp.events||[]).filter(e=>{const k=(e.ts||'')+e.a_n+e.s_co+e.d_co;if(LIVE.seen.has(k))return false;LIVE.seen.add(k);return true});
     LIVE.queue.push(...ev);
-    if(cp.src_counts){LIVE.srcWeights=cp.src_counts;sources.forEach(s=>{if(s.code&&cp.src_counts[s.code])s.w=1+Math.log2(1+cp.src_counts[s.code])});$('originsNote').textContent='(أوزان حقيقية من ThreatCloud)'}
-    renderGlobal(cp);
+    if(cp.src_counts){LIVE.srcWeights=cp.src_counts;sources.forEach(s=>{if(s.code&&cp.src_counts[s.code])s.w=1+Math.log2(1+cp.src_counts[s.code])});$('originsNote').textContent=t('weights')}
+    LIVE.cp=cp;renderGlobal(cp);
     const age=Math.round((Date.now()-LIVE.updated)/60000);
-    $('gUpdated').textContent='قبل '+age+' د';
+    LIVE.age=age;$('gUpdated').textContent=(L==='en'?age+' min ago':'قبل '+age+' د');
     const m=$('mode');m.className='mode '+(fresh?'live':'sim');
-    m.textContent=fresh?`بيانات حقيقية · Check Point ThreatCloud · ${fmt(LIVE.updated).slice(0,5)} UTC`:'محاكاة — لا توجد أحداث في آخر تحديث';
-  }catch(e){const m=$('mode');m.className='mode sim';m.textContent='محاكاة — تعذّر جلب data/live.json'}
+    LIVE.fresh=fresh;m.textContent=fresh?`${t('md_live')} ${fmt(LIVE.updated).slice(0,5)} UTC`:t('md_noev');
+  }catch(e){LIVE.fresh=false;const m=$('mode');m.className='mode sim';m.textContent=t('md_fail')}
 }
 function pumpLive(){
   if(!st.paused&&LIVE.queue.length){
@@ -551,7 +650,7 @@ loadLive();setInterval(loadLive,60000);setTimeout(pumpLive,1500);
 
 /* ---------- Controls & loop ---------- */
 const speedVal=()=>+$('speed').value;
-$('btnPause').onclick=()=>{st.paused=!st.paused;$('btnPause').textContent=st.paused?'استئناف':'إيقاف مؤقت';$('btnPause').classList.toggle('active',st.paused)};
+$('btnPause').onclick=()=>{st.paused=!st.paused;$('btnPause').textContent=st.paused?t('resume'):t('pause');$('btnPause').classList.toggle('active',st.paused)};
 $('btnReset').onclick=()=>{st.total=st.blocked=st.breached=st.inv=0;types.forEach(t=>st.types[t.k]=0);sources.forEach(s=>st.origins[s.n]=0);st.incidents=[];st.recent=[];rerender();renderStats();$('logCount').textContent=0};
 document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');st.filter=b.dataset.f;rerender()});
 
@@ -568,6 +667,32 @@ setInterval(()=>{
   $('clock').textContent=fmt(new Date());
   const s=Math.floor((Date.now()-start)/1000);$('uptime').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 },1000);
+function applyTheme(){
+  document.documentElement.dataset.theme=TH;
+  $('btnTheme').textContent=TH==='dark'?'☀':'☾';
+  try{localStorage.setItem('iqs-theme',TH)}catch(e){}
+}
+function applyLang(){
+  document.documentElement.lang=L;
+  document.documentElement.dir=(L==='ar')?'rtl':'ltr';
+  $('btnLang').textContent=(L==='ar')?'EN':'ع';
+  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.dataset.i;if(k==='md_wait'&&LIVE.loaded)return;el.textContent=t(k)});
+  cities.forEach(c=>{if(c.lblEl)c.lblEl.textContent=NM(c)});
+  sources.forEach(o=>{if(o.lblEl)o.lblEl.textContent=o.f+' '+NM(o)});
+  $('btnPause').textContent=st.paused?t('resume'):t('pause');
+  if(LIVE.loaded){
+    const m=$('mode');
+    m.textContent=LIVE.fresh?`${t('md_live')} ${fmt(LIVE.updated).slice(0,5)} UTC`:t('md_noev');
+    if(LIVE.srcWeights)$('originsNote').textContent=t('weights');
+    if(LIVE.age!=null)$('gUpdated').textContent=(L==='en'?LIVE.age+' min ago':'قبل '+LIVE.age+' د');
+    if(LIVE.cp)renderGlobal(LIVE.cp);
+  }
+  renderStats();rerender();
+  try{localStorage.setItem('iqs-lang',L)}catch(e){}
+}
+$('btnLang').onclick=()=>{L=(L==='ar')?'en':'ar';applyLang()};
+$('btnTheme').onclick=()=>{TH=(TH==='dark')?'light':'dark';applyTheme()};
+applyTheme();applyLang();
 renderStats();
 setTimeout(tick,600);
 </script>
