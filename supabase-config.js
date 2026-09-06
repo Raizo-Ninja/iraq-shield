@@ -1,19 +1,15 @@
 // ============================================================
 //  IRAQ SHIELD — إعدادات Supabase / Supabase configuration
-// ============================================================
-//  ضع هنا القيمتين من لوحة Supabase:
-//  Project Settings ▸ Data API  →  Project URL
-//  Project Settings ▸ API Keys  →  publishable key (يبدأ بـ sb_publishable_)
+//  مضبوط تلقائيًا لمشروع Raizo-Ninja's Project.
+//  Configured for the Raizo-Ninja's Project.
 //
-//  Paste the two values from your Supabase dashboard:
-//  Project Settings ▸ Data API  →  Project URL
-//  Project Settings ▸ API Keys  →  publishable key (starts with sb_publishable_)
-//
-//  ⚠ المفتاح العام (publishable) آمن للنشر — لا تضع هنا مفتاح service_role أبدًا.
-//  ⚠ The publishable key is safe to expose — NEVER put the service_role key here.
+//  ⚠ المفتاح العام (publishable) آمن للنشر.
+//  ⚠ لا تضع هنا مفتاح service_role أو أي secret key أبدًا.
+//  ⚠ The publishable key is safe to expose.
+//  ⚠ NEVER put the service_role / secret key here.
 // ============================================================
 
 window.IQS_SUPABASE = {
-  url:     "https://YOUR-PROJECT-ID.supabase.co",
-  anonKey: "sb_publishable_XXXXXXXXXXXXXXXXXXXXXXXX"
+  url:     "https://uqjjpttwwhuavrwfcxjg.supabase.co",
+  anonKey: "sb_publishable_JUinHK1SaMtDMIwA6_vVcQ_Z65ARhEf"
 };
